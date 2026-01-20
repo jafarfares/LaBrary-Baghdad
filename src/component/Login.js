@@ -1,169 +1,194 @@
+import TextField from '@mui/material/TextField';
 import { Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
-import bookImage1 from "../images/download (3).jfif";
+import bookImage1 from "../images/main_reading_room_cambridge_university_library_web_banner.jpg";
 import { useNavigate } from "react-router-dom";
-import TextField from '@mui/material/TextField';
+
 export default function Login() {
 
   //navigate
   const navigate = useNavigate();
-
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        background: "#bfc3c9",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Inter, sans-serif",
-      }}
-    >
-      <div
-        style={{
-          width: "80%",
-          height: "95%",
-          borderRadius: "24px",
-          overflow: "hidden",
-          display: "flex",
-          background: "#fff",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
-        }}
-      >
-        {/* LEFT SIDE */}
-        <div
-          style={{
-            width: "60%",
-            position: "relative",
-            padding: "30px",
-            background: "linear-gradient(180deg, #f2f2f2, #fcefbd)",
-          }}
-        >
-          <img
-            src={bookImage1}
-            alt="team"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center right",
-              transform: "scale(1.05)",
-              borderRadius: "25px",
-            }}
-          />
+    <div style={styles.page}>
+      <div style={styles.card}>
+        {/* LEFT IMAGE */}
+        <div style={styles.imageContainer}>
+          <img src={bookImage1} alt="login" style={styles.image} />
+
+          <div style={styles.imageOverlay}>
+            <span style={styles.welcome}>Welcome back</span>
+            <h1 style={styles.title}>
+              Sign in to
+              <br />
+              your account
+            </h1>
+          </div>
         </div>
-        {/* RIGHT SIDE */}
-        <div
-          style={{
-            width: "40%",
-            padding: "100px 20px",
-            background: "linear-gradient(180deg, #f2f2f2, #fcefbd)",
-            display: "flex",
-            flexDirection: "column",
-            height: "100%",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              width:"100%"
-            }}
-          >
-            <h2 style={{ margin: 0, fontWeight: 700, fontSize: "20px" }}>
-              Create an account
-            </h2>
 
-            <p
-              style={{
-                margin: "8px 0 30px",
-                fontSize: "12px",
-                color: "#666",
-              }}
-            >
-              If you have a previous account
-            </p>
-
-            {/* INPUTS */}
-            <div style={{display:"flex",flexDirection:"column",gap:"5px",width:"100%",justifyContent:"center",alignItems:"center"}}>
-            <TextField id="standard-basic" label="Email" variant="standard" sx={{width:"60%"}}/>
-            <TextField id="standard-basic" label="Password" variant="standard" sx={{width:"60%"}}/>
+        {/* RIGHT FORM */}
+        <div style={styles.formContainer}>
+          <div style={{marginTop:"70px"}}>
+            <div style={styles.signIn}>
+              <h2 style={{ margin: 0 }}>Sign In</h2>
+              <h5 style={{ margin: 0 ,color: "#666"}}>If you have a previous account</h5>
             </div>
-            {/* <input
-              type="Password"
-              placeholder="Password"
-              style={{
-                height: "35px",
-                borderRadius: "24px",
-                border: "none",
-                padding: "0 20px",
-                fontSize: "14px",
-                marginBottom: "18px",
-                outline: "none",
-                width: "60%",
-              }}
-            /> */}
-            {/* SUBMIT */}
-            <Button
-              sx={{
-                height: "35px",
-                borderRadius: "24px",
-                border: "none",
-                background: "#ffd54f",
-                fontWeight: "600",
-                marginTop: "10px",
-                width: "70%",
-                textTransform: "none",
-                color: "#000",
-                "&:hover": { backgroundColor: "#fad047" },
-              }}
-            >
-              Submit
+
+            <TextField
+              id="standard-basic"
+              label="Email"
+              variant="standard"
+              sx={styles.input}
+            />
+
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              sx={styles.input}
+              type="password"
+            />
+
+            <Button variant="contained" fullWidth style={styles.signInButton} onClick={()=>navigate("/app")}>
+              Sign In
             </Button>
 
-            {/* GOOGLE */}
             <Button
-              startIcon={<GoogleIcon />}
               variant="outlined"
-              sx={{
-                mt: 2,
-                height: "48px",
-                borderRadius: "24px",
-                width: "70%",
-                textTransform: "none",
-                fontWeight: 500,
-                color: "#000",
-                borderColor: "#ddd",
-              }}
+              fullWidth
+              startIcon={<GoogleIcon />}
+              style={styles.googleButton}
             >
-              Google
+              Continue with Google
             </Button>
-            <h5
-              style={{
-                marginTop: "143px",
-                marginRight: "0px",
-                color: "#979393",
-              }}
+          </div>
+          <div>
+          <p style={styles.register}>
+            Don't have an account?{" "}
+            <span
+              style={styles.registerLink}
+              onClick={() => navigate("/Register")}
             >
-              dont have any account?
-              <span
-                style={{
-                  color: "#140ecd",
-                  marginLeft: "5px",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
-                onClick={() => navigate("/Register")}
-              >
-                Register
-              </span>
-            </h5>
+              Register
+            </span>
+          </p>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+const styles = {
+  page: {
+    width: "100%",
+    height: "100vh",
+    background: "#eef1f6",
+    
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  card: {
+    width: "900px",
+    height: "550px",
+    background: "linear-gradient(180deg, #f2f2f2, #fdf3cc)",
+    borderRadius: "25px",
+    display: "flex",
+    overflow: "hidden",
+    boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+  },
+
+  imageContainer: {
+    width: "60%",
+    position: "relative",
+    zIndex: 1,
+  },
+
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+
+  imageOverlay: {
+    position: "absolute",
+    bottom: "40px",
+    left: "40px",
+    color: "#fff",
+  },
+
+  welcome: {
+    fontSize: "14px",
+    opacity: 0.9,
+  },
+
+  title: {
+    fontSize: "32px",
+    fontWeight: "bold",
+    lineHeight: "1.2",
+    marginTop: "10px",
+  },
+
+  formContainer: {
+    width: "40%",
+    padding: "50px 40px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    borderRadius: "25px",
+    background: "linear-gradient(180deg, #f2f2f2, #fdf3cc)",
+    zIndex: 999,
+    marginLeft: "-30px",
+    gap:"50px"
+  },
+
+  signIn: {
+    marginBottom: "15px",
+    marginLeft: "54px",
+  },
+
+  input: {
+    marginBottom: "18px",
+    borderRadius: "25px",
+    width: "70%",
+    marginLeft: "60px",
+    "& .MuiInputLabel-root": {
+      fontSize: "14px",   
+    },
+  },
+
+  signInButton: {
+    backgroundColor: "#000",
+    borderRadius: "25px",
+    marginTop: "5px",
+    marginBottom: "10px",
+    textTransform: "none",
+    fontSize: "16px",
+    width: "70%",
+    marginLeft: "62px",
+  },
+
+  googleButton: {
+    borderRadius: "25px",
+    padding: "10px",
+    textTransform: "none",
+    fontSize: "12px",
+    color: "#000",
+    width: "70%",
+    marginLeft: "62px",
+  },
+
+  register: {
+    marginTop: "20px",
+    fontSize: "14px",
+    color: "#777",
+  },
+
+  registerLink: {
+    color: "#000",
+    cursor: "pointer",
+    fontWeight: "500",
+    textDecoration: "underline"
+  },
+};

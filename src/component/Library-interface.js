@@ -23,7 +23,8 @@ export default function Hero() {
       sx={{
         height: "100vh",
         overflow: "hidden",
-        backgroundColor: "#f7fbfc",
+        // backgroundColor: "#f7fbfc",
+        bgcolor:"#eef1f6"
       }}
     >
       {/* Navbar */}

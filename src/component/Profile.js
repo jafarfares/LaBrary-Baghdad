@@ -1,0 +1,208 @@
+import { useState } from "react";
+import {
+  Box,
+  Avatar,
+  Typography,
+  Button,
+} from "@mui/material";
+
+// Icons
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import PersonIcon from "@mui/icons-material/Person";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import ProfileSettingsCard from "./ProfileSettingsCard";
+
+export default function Profile() {
+  const [active, setActive] = useState("profile");
+
+  const menu = [
+    {
+      id: "profile",
+      label: "Profile",
+      icon: <PersonIcon />,
+      count: null,
+    },
+    {
+      id: "reading",
+      label: "Reading",
+      icon: <MenuBookIcon />,
+      count: 3,
+    },
+    {
+      id: "favorite",
+      label: "Favorite",
+      icon: <FavoriteIcon />,
+      count: 12,
+    },
+    {
+      id: "wishlist",
+      label: "Wishlist",
+      icon: <BookmarkIcon />,
+      count: 8,
+    },
+  ];
+
+
+  //=====UI======
+  return (
+
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        gap: "25px",
+        // backgroundColor:"#fff8e1",
+        padding:"10px",
+        marginLeft:"20px"
+      }}
+    >
+      {/* ===== LEFT CARD ===== */}
+      <Box
+        sx={{
+          width: "30%",
+          backgroundColor: "#fff",
+          height: "500px",
+          borderRadius: "25px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          pt: 4,
+          boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+          border:"solid 1px #f9de8b"
+        }}
+      >
+        {/* Avatar */}
+        <Box sx={{ position: "relative" }}>
+          <Avatar
+            sx={{
+              width: 120,
+              height: 120,
+              bgcolor:"white",
+              color: "#c69e5a",
+              border:"solid 4px #fad76e",
+              fontSize: 36,
+            }}
+          >
+            
+          </Avatar>
+
+          {/* Add Photo */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 6,
+              right: 6,
+              width: 32,
+              height: 32,
+              bgcolor: "#ff9800",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
+          >
+            <AddAPhotoIcon sx={{ fontSize: 18, color: "#fff" }} />
+          </Box>
+        </Box>
+
+        {/* Name */}
+        <Typography
+          sx={{
+            mt: 2,
+            fontWeight: 600,
+            fontSize: 20,
+            color: "#2e2b26",
+          }}
+        >
+          Abd Alrhman
+        </Typography>
+
+        {/* Menu Buttons */}
+        <Box
+          sx={{
+            width: "100%",
+            mt: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 1,
+          }}
+        >
+          {menu.map((item) => (
+            <Button
+              key={item.id}
+              onClick={() => setActive(item.id)}
+              sx={{
+                width: "90%",
+                px: 2,
+                py: 1.5,
+                borderRadius: "14px",
+                textTransform: "none",
+                display: "flex",
+                justifyContent: "space-between",
+
+                bgcolor:
+                  active === item.id ? "#ffecb3" : "transparent",
+                color:
+                  active === item.id ? "#ff9800" : "#5f5b52",
+
+                borderLeft:
+                  active === item.id
+                    ? "4px solid #ff9800"
+                    : "4px solid transparent",
+
+                "&:hover": {
+                  bgcolor: "#fbecc1",
+                },
+              }}
+            >
+              {/* Left side */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                }}
+              >
+                {item.icon}
+                <Typography>{item.label}</Typography>
+              </Box>
+
+              {/* Right Circle */}
+              {item.count !== null && (
+                <Box
+                  sx={{
+                    width: 34,
+                    height: 30,
+                    borderRadius: "30%",
+                    bgcolor: "#ff9800",
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // fontWeight: "bold",
+                    fontSize: 14,
+                    border:"2px solid #fad76e"
+                    //boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                  }}
+                >
+                  {item.count}
+                </Box>
+              )}
+            </Button>
+          ))}
+        </Box>
+      </Box>
+
+      {/* ===== RIGHT CARD (UNCHANGED) ===== */}
+      <Box sx={{width:"65%"}}>
+        <ProfileSettingsCard/>
+      </Box>
+    </div>
+  
+  );
+}
+
