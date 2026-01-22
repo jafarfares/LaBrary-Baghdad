@@ -5,6 +5,22 @@ export default function Community(){
             <h2>hello</h2>
             <h2>hello</h2>
             <h2>hello</h2>
+             <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+             <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+             <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+             <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
+            <h2>hello</h2>
         </div>
     )
 }
