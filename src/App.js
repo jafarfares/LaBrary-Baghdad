@@ -9,6 +9,7 @@ import Home from "./component/Home";
 import Books from "./component/Books";
 import Community from "./component/Community";
 import Research from "./component/Research";
+import ShowBook from "./component/ShowBook";
 //MUI
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -31,6 +32,7 @@ function App() {
           <Route path="Community" element={<Community />} />
           <Route path="Research" element={<Research />} />
           <Route path="Books" element={<Books />} />
+          <Route path="ShowBook" element={<ShowBook/>}/>
         </Route>
       </Routes>
     </ThemeProvider>
