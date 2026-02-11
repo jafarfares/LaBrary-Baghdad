@@ -10,6 +10,7 @@ import Books from "./component/Books";
 import Community from "./component/Community";
 import Research from "./component/Research";
 import ShowBook from "./component/ShowBook";
+import ShowGroup from "./component/ShowGroup";
 //MUI
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -33,6 +34,7 @@ function App() {
           <Route path="Research" element={<Research />} />
           <Route path="Books" element={<Books />} />
           <Route path="ShowBook" element={<ShowBook/>}/>
+          <Route path="ShowGroup" element={<ShowGroup/>}/>
         </Route>
       </Routes>
     </ThemeProvider>

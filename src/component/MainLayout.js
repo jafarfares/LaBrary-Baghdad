@@ -79,7 +79,6 @@ export default function MainLayout() {
             top: 0,
             zIndex: 1000,
             px: { xs: 1.5, md: 3 },
-            py: 1.5,
             display: "flex",
             alignItems: "center",
             gap: 2,

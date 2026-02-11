@@ -1,4 +1,3 @@
-
 import {
   Box,
   Typography,
@@ -6,26 +5,18 @@ import {
   Card,
   CardContent,
   Chip,
-  Grid,
 } from "@mui/material";
 import { useState } from "react";
 
-
-import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-
-// import { FaBook, FaFlask, FaLandmark, FaLaptopCode, FaPaintBrush, FaMusic, FaGlobe } from "react-icons/fa";
-import {
-  FiBook,
-  FiCpu,
-  FiGlobe,
-  FiMusic,
-  FiPenTool,
-} from "react-icons/fi";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import CustomizedDialogs from "./DialogCommunity";
+import { useNavigate } from "react-router-dom";
+import { FiBook, FiCpu, FiGlobe, FiMusic, FiPenTool } from "react-icons/fi";
 
 export default function Community() {
   const [activeCategory, setActiveCategory] = useState(0);
-
+  const navigate=useNavigate();
   const categories = [
     {
       id: 0,
@@ -59,7 +50,6 @@ export default function Community() {
       count: 5,
       icons: <FiMusic />,
     },
-
   ];
 
   const communities = [
@@ -99,20 +89,59 @@ export default function Community() {
       lastActive: "3 hours ago",
       tags: ["World Literature", "Translation"],
     },
-    
   ];
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <Box sx={{ minHeight: "100vh", p: 2 }}>
+    <Box sx={{ minHeight: "100vh", p: { xs: 1, md: 2 } }}>
       {/* Main Layout: Sidebar + Content */}
       <Box
         sx={{
           maxWidth: 1400,
           mx: "auto",
           display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           gap: 3,
         }}
       >
+        {/* ===== Mobile Categories (Buttons) ===== */}
+        <Box
+          sx={{
+            display: { xs: "block", md: "none" },
+            gap: 3,
+            mb: 3,
+            pb: 1,
+            flexWrap: "wrap",
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
+          {categories.map((cat) => (
+            <Button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              startIcon={cat.icons}
+              sx={{
+                flexShrink: 0,
+                px: 2,
+                py: 1,
+                borderRadius: "999px",
+                textTransform: "none",
+                fontSize: 14,
+                bgcolor: activeCategory === cat.id ? "#000" : "#F1F5FF",
+                color: activeCategory === cat.id ? "#fff" : "#111827",
+                "&:hover": {
+                  bgcolor: activeCategory === cat.id ? "#111" : "#E5ECFF",
+                },
+                marginLeft: "5px",
+                marginTop: "10px",
+              }}
+            >
+              {cat.name}
+            </Button>
+          ))}
+        </Box>
+
         {/* ================= SIDEBAR ================= */}
         <Box
           sx={{
@@ -122,6 +151,8 @@ export default function Community() {
             display: { xs: "none", md: "block" },
             width: 280,
             height: "fit-content",
+            position: "sticky",
+            top: 20,
           }}
         >
           <Typography fontWeight={600} mb={2}>
@@ -177,6 +208,8 @@ export default function Community() {
               mb: 2,
             }}
           >
+            {open && <CustomizedDialogs open={open} setOpen={setOpen} />}
+
             <Box>
               <Typography variant="h5" fontWeight={600}>
                 All Communities
@@ -187,125 +220,221 @@ export default function Community() {
             </Box>
 
             <Button
-              
               sx={{
-                
                 bgcolor: "#000000",
                 borderRadius: 2,
                 "&:hover": { bgcolor: "#131313" },
                 color: "#fff",
-                marginRight:{md:"18px"}
+                marginRight: { md: "18px" },
               }}
+              onClick={() => setOpen(true)}
             >
               Create Community
             </Button>
           </Box>
-          <Box sx={{width:"100%",display:"flex",flexDirection:"column",gap:3}}>
           <Box
             sx={{
+              width: "100%",
               display: "flex",
-              flexWrap: "wrap",
-              width:"100%",
+              flexDirection: "column",
               gap: 3,
-              justifyContent: { xs: "center", md: "flex-start" }, // center on small screens
             }}
           >
-            {communities.map((c) => (
-              <Card
-                key={c.id}
-                sx={{
-                  borderRadius: 4,
-                  display: "flex",
-                  flexDirection: "column",
-                  width: { xs: "100%", sm: "48%", md: "31%" }, // 3 cards per row on md+
-                  minWidth: 250, // optional: prevent cards from being too small
-                }}
-              >
-                {/* Image Section */}
-                <Box
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                width: "100%",
+                gap: 3,
+                justifyContent: { xs: "center", md: "flex-start" }, // center on small screens
+              }}
+            >
+              {communities.map((c) => (
+                <Card
+                  key={c.id}
                   sx={{
-                    height: 160,
-                    bgcolor: "#faf5db",
-                    position: "relative",
+                    borderRadius: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    width: { xs: "100%", sm: "48%", md: "31%" }, 
+                    minWidth: 250, // optional: prevent cards from being too small
                   }}
                 >
-                  <Chip
-                    label="Public"
-                    size="small"
-                    sx={{ position: "absolute", top: 10, left: 10 }}
-                  />
-                  <Chip
-                    label="Active"
-                    size="small"
-                    color="success"
-                    sx={{ position: "absolute", top: 10, right: 10 }}
-                  />
-                  <Chip
-                    label={`⭐ ${c.rating}`}
-                    size="small"
-                    sx={{ position: "absolute", bottom: 10, right: 10 }}
-                  />
-                </Box>
-
-                {/* Content */}
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography fontWeight={600} mb={1}>
-                    {c.title}
-                  </Typography>
-                  <Typography fontSize={14} color="text.secondary" mb={2}>
-                    {c.description}
-                  </Typography>
-                  <Box sx={{display:"flex",flexDirection:"row",justifyContent:"end",alignItems:"center",width:"100%"}}>
-                  <Typography fontSize={13} mb={2}> 👥{c.members}</Typography>
-                  
-                  </Box>
-                  <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                    {c.tags.map((tag) => (
-                      <Chip key={tag} label={tag} size="small" />
-                    ))}
-                  </Box>
-                </CardContent>
-
-                {/* Button */}
-                <Box p={2}>
-                  <Button
-                    fullWidth
-                    variant="contained"
+                  {/* Image Section */}
+                  <Box
                     sx={{
-                      bgcolor: "#000000",
-                      borderRadius: 2,
-                      "&:hover": { bgcolor: "#131313" },
-                      color: "#fff",
+                      height: 160,
+                      bgcolor: "#faf5db",
+                      position: "relative",
                     }}
                   >
-                    Join Community
-                  </Button>
-                </Box>
-              </Card>
-            ))}
-            
-          </Box>
-          
-          
-          <Box sx={{width:"100%",display:"flex",flexDirection:"column",gap:2,margimTop:"7px"}}>
-           <Typography sx={{fontSize:"22px",fontWeight:"bold"}} color="#111827">Community Types</Typography>
-           <Box sx={{width:"100%",display:"flex",flexDirection:"row",gap:3,alignItems:"center"}}>
+                    <Chip
+                      label="Public"
+                      size="small"
+                      sx={{ position: "absolute", top: 10, left: 10 }}
+                    />
+                    <Chip
+                      label="Active"
+                      size="small"
+                      color="success"
+                      sx={{ position: "absolute", top: 10, right: 10 }}
+                    />
+                    <Chip
+                      label={`⭐ ${c.rating}`}
+                      size="small"
+                      sx={{ position: "absolute", bottom: 10, right: 10 }}
+                    />
+                  </Box>
 
-            <Box sx={{bgcolor:"#FFFFFF",width:{md:"30%",sm:"100%"},display:"flex",alignItems:"center",flexDirection:"column",padding:"10px",gap:1,borderRadius:4}}>
-              
-              <LanguageOutlinedIcon style={{fontSize:"40px",color:"#374151"}}/>
-              <Typography sx={{fontSize:"20px",fontWeight:"bold"}} color="#111827">Public</Typography>
-              <Typography sx={{fontSize:"17px"}} color="#5B6572">Open to everyone</Typography>
-              <Typography sx={{fontSize:"13px",padding:"5px 20px",bgcolor:"#EDF3FA",borderRadius:"15px",fontWeight:"bold"}} color="#111827">234 communities</Typography>
+                  {/* Content */}
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography fontWeight={600} mb={1}>
+                      {c.title}
+                    </Typography>
+                    <Typography fontSize={14} color="text.secondary" mb={2}>
+                      {c.description}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "end",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <Typography fontSize={13} mb={2}>
+                        {" "}
+                        👥{c.members}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                      {c.tags.map((tag) => (
+                        <Chip key={tag} label={tag} size="small" />
+                      ))}
+                    </Box>
+                  </CardContent>
+
+                  {/* Button */}
+                  <Box p={2}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      sx={{
+                        bgcolor: "#000000",
+                        borderRadius: 2,
+                        "&:hover": { bgcolor: "#131313" },
+                        color: "#fff",
+                      }}
+                     onClick={()=>navigate("/app/ShowGroup")}
+                    >
+                      Join Community
+                    </Button>
+                  </Box>
+                </Card>
+              ))}
             </Box>
-            <Box sx={{bgcolor:"#FFFFFF",width:{md:"30%",sm:"100%"},display:"flex",alignItems:"center",flexDirection:"column",padding:"10px",gap:1,borderRadius:4}}>
-              <SecurityOutlinedIcon style={{fontSize:"40px",color:"#374151"}}/>
-              <Typography sx={{fontSize:"20px",fontWeight:"bold"}} color="#111827">Private</Typography>
-              <Typography sx={{fontSize:"17px"}} color="#5B6572">By code or invitation</Typography>
-              <Typography sx={{fontSize:"13px",padding:"5px 20px",bgcolor:"#EDF3FA",borderRadius:"15px",fontWeight:"bold"}} color="#111827">89 communities</Typography>
+
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                margimTop: "7px",
+              }}
+            >
+              <Typography
+                sx={{ fontSize: "22px", fontWeight: "bold" }}
+                color="#111827"
+              >
+                Community Types
+              </Typography>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 3,
+                  alignItems: "center",
+                }}
+              >
+                <Box
+                  sx={{
+                    bgcolor: "#FFFFFF",
+                    width: { md: "30%", sm: "100%" },
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    padding: "10px",
+                    gap: 1,
+                    borderRadius: 4,
+                  }}
+                >
+                  <LanguageOutlinedIcon
+                    style={{ fontSize: "40px", color: "#374151" }}
+                  />
+                  <Typography
+                    sx={{ fontSize: "20px", fontWeight: "bold" }}
+                    color="#111827"
+                  >
+                    Public
+                  </Typography>
+                  <Typography sx={{ fontSize: "17px" }} color="#5B6572">
+                    Open to everyone
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      padding: "5px 20px",
+                      bgcolor: "#EDF3FA",
+                      borderRadius: "15px",
+                      fontWeight: "bold",
+                    }}
+                    color="#111827"
+                  >
+                    234 communities
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    bgcolor: "#FFFFFF",
+                    width: { md: "30%", sm: "100%" },
+                    display: "flex",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    padding: "10px",
+                    gap: 1,
+                    borderRadius: 4,
+                  }}
+                >
+                  <SecurityOutlinedIcon
+                    style={{ fontSize: "40px", color: "#374151" }}
+                  />
+                  <Typography
+                    sx={{ fontSize: "20px", fontWeight: "bold" }}
+                    color="#111827"
+                  >
+                    Private
+                  </Typography>
+                  <Typography sx={{ fontSize: "17px" }} color="#5B6572">
+                    By code or invitation
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "13px",
+                      padding: "5px 20px",
+                      bgcolor: "#EDF3FA",
+                      borderRadius: "15px",
+                      fontWeight: "bold",
+                    }}
+                    color="#111827"
+                  >
+                    89 communities
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
-           </Box>
-           </Box>  
           </Box>
         </Box>
       </Box>
