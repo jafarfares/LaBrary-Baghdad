@@ -3,7 +3,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button, Avatar, TextField } from "@mui/material";
-
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -28,7 +27,7 @@ export default function ShowBook() {
           alignItems: "center",
           flexDirection: "column",
           position: "relative",
-         
+          
         }}
       >
         {/* ===== Book + Title ===== */}
@@ -36,7 +35,7 @@ export default function ShowBook() {
           sx={{
             display: "flex",
             flexDirection: "row",
-            gap: { md: "40px", xl: "100px" },
+            gap: { xs:"20px",md: "40px", xl: "100px" },
             zIndex: 2,
             marginLeft:{md:"70px"}
           }}
@@ -61,9 +60,9 @@ export default function ShowBook() {
             />
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "13px" }}>
-            <Typography variant="h4" sx={{ fontWeight: 500 }}>
-              HarryPotter:Half <br /> Blood Prince
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+            <Typography variant={  "h4" } sx={{ fontWeight: 500 }}>
+              HarryPotter:Half <br sx={{display:{xs:"none",md:"block"}}}/> Blood Prince
             </Typography>
             <Typography sx={{ fontWeight: 500, fontSize: "17px" }}>
               JK Rowling

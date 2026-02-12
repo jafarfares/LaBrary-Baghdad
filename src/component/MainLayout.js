@@ -5,11 +5,15 @@ import { Outlet, NavLink, useNavigate } from "react-router-dom";
 // Icons
 import PersonIcon from "@mui/icons-material/Person";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 // Components
 import Sidebar from "./Sidebar";
 import ShowSidebar from "./ShowSidebarShow";
 // Hooks
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
+
+import { Drawer } from "@mui/material";
 
 /* ================= Layout ================= */
 
@@ -17,13 +21,12 @@ export default function MainLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // =====  only Home =====
-  const isHome =
-    location.pathname === "/app" ||
-    location.pathname === "/app/";
+  const [openMenu, setOpenMenu] = useState(false);
 
-  const isShowPage =
-    location.pathname === "/app/ShowBook";
+  // =====  only Home =====
+  const isHome = location.pathname === "/app" || location.pathname === "/app/";
+
+  const isShowPage = location.pathname === "/app/ShowBook";
 
   const hasSidebar = isHome || isShowPage;
 
@@ -38,12 +41,19 @@ export default function MainLayout() {
     <Box
       sx={{
         minHeight: "100vh",
-        backgroundImage: isHome ? "url(/desktop-bgr.png)" : "none",
+        backgroundImage: isHome
+          ? {
+              md: "url(/desktop-bgr.png)",
+              lg: "url(/desktop-bgr.png)",
+              xl: "url(/desktop-bgr.png)",
+              // xs: "url(/iPhone13&14-1.png)",
+            }
+          : "none",
         backgroundColor: isHome ? "transparent" : "#F1EFE3",
-        backgroundSize: "cover",      
-        backgroundPosition: "center", 
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed", 
+        backgroundAttachment: "fixed",
         display: "flex",
       }}
     >
@@ -82,9 +92,18 @@ export default function MainLayout() {
             display: "flex",
             alignItems: "center",
             gap: 2,
-            marginLeft: "350px", 
+            marginLeft: { xs: 0, md: "350px" },
+            position:{xs:"sticky",md:"static"},
+            bgcolor:{xs:"#fff",md:"transparent"}
           }}
         >
+          <ListOutlinedIcon
+            sx={{
+              display: { xs: "block", md: "none", lg: "none", xl: "none" },
+              fontSize: "30px",
+            }}
+            onClick={() => setOpenMenu(true)}
+          />
           {/* Center - Nav */}
           <Box
             sx={{
@@ -118,6 +137,21 @@ export default function MainLayout() {
               </NavLink>
             ))}
           </Box>
+
+          {/* sidebar mobil */}
+          <Drawer
+            anchor="left"
+            open={openMenu}
+            onClose={() => setOpenMenu(false)}
+            sx={{
+              display: { xs: "block", md: "none" },
+              "& .MuiDrawer-paper": {
+                width: 180,
+              },
+            }}
+          >
+            <Sidebar />
+          </Drawer>
 
           {/* Right - Profile */}
           <Box

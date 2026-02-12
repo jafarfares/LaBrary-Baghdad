@@ -214,7 +214,8 @@ export default function Books() {
           gap: "20px",
           alignItems: "center",
           flexWrap: "wrap",
-          marginLeft: "38px",
+          marginLeft: {md:"38px",xs:"38px"},
+          marginTop:{xs:"30px"}
         }}
       >
         {[
@@ -232,18 +233,19 @@ export default function Books() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "30px",
+               marginTop: {xs:"70px",md:"5px"},         
             }}
           >
             <Box
               sx={{
                 bgcolor: "#F6F6F6",
                 borderRadius: "12px",
-                width: { md: "200px" },
-                height: { md: "80px" },
-                mt: { md: "70px" },
+                width: { md: "200px",xs:"170px" },
+                height: { md: "80px",xs:"80px" },
+                mt: { md: "70px",xs:"20px" },
                 position: "relative",
                 overflow: "visible",
+                // marginBottom:{xs:"20px"}
               }}
             >
               <Box
@@ -272,6 +274,7 @@ export default function Books() {
                 />
               </Box>
             </Box>
+            <Typography mt={2}>{title}</Typography>
           </Box>
         ))}
       </Box>

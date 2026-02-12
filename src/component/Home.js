@@ -117,7 +117,7 @@ export default function Home() {
   return (
     <Box sx={{ marginLeft: { md: "110px" } }}>
       <Typography variant="h4" fontWeight="bold" mb={2}>
-        Discover
+        News
       </Typography>
 
       <DialogNews open={open} setOpen={setOpen} news={sampleNews}/>
@@ -178,15 +178,17 @@ export default function Home() {
         </Box>
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} >
         {books.slice(currentIndex, currentIndex + visibleCount).map((img, i) => (
           <Grid item xs={6} sm={4} md={3} key={i}>
-            <Card sx={{ borderRadius: 3 }}>
-              <CardMedia component="img" image={img} height="220" sx={{ objectFit: "contain" }} />
+            <Card sx={{ borderRadius: 3 }} >
+              <CardMedia component="img" image={img} height={220} sx={{ objectFit: "contain" }} />
             </Card>
           </Grid>
         ))}
       </Grid>
+      
+
 
       {/* ========= BOOK CATEGORY ========= */}
       <Typography variant="h6" mt={5} mb={2} sx={{ color: "#9f9f9f" }}>

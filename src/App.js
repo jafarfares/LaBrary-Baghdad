@@ -11,6 +11,10 @@ import Community from "./component/Community";
 import Research from "./component/Research";
 import ShowBook from "./component/ShowBook";
 import ShowGroup from "./component/ShowGroup";
+import MyLibrary from "./component/MyLibrary";
+import Setting from "./component/Setting";
+import Favorite from "./component/Favorite";
+import Download from "./component/Download";
 //MUI
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -35,6 +39,10 @@ function App() {
           <Route path="Books" element={<Books />} />
           <Route path="ShowBook" element={<ShowBook/>}/>
           <Route path="ShowGroup" element={<ShowGroup/>}/>
+          <Route path="MyLibrary" element={<MyLibrary/>}/>
+          <Route path="Favorite" element={<Favorite/>}/>
+          <Route path="Download" element={<Download/>}/>
+          <Route path="Setting" element={<Setting/>}/>
         </Route>
       </Routes>
     </ThemeProvider>
