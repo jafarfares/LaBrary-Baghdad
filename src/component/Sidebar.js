@@ -84,9 +84,15 @@ export default function Sidebar() {
         <hr style={{border:"1px solid #AFAFAF",width:"100%"}}></hr>
 
         {settings.map((item) => (
+
+          <NavLink
+           key={item.name}
+           to={item.path}
+           style={{ textDecoration: "none", width: "100%" }}
+         >
           
           <Button
-            key={item.name}
+            
             sx={{
               borderRadius: 2,
               display:"flex",
@@ -107,6 +113,7 @@ export default function Sidebar() {
             
             
           </Button>
+          </NavLink>
          
         ))}
 

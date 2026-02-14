@@ -215,9 +215,39 @@ import GoogleIcon from "@mui/icons-material/Google";
 import bookImage1 from "../images/download (3).jfif";
 // router
 import { useNavigate } from "react-router-dom";
+//axios
+import axios from "axios";
+//react
+import { useState } from "react";
 
 export default function Register() {
   const navigate = useNavigate();
+
+  //stor data
+  const [formData, setFormData] = useState({name:"",email:"",password:""});
+  //Loading
+  const [Loading,setLoading]=useState(false);
+
+  //API
+  
+  async function RegisterUser(){
+    try{
+      setLoading(true);
+      const response =await axios.post("https://abdalrhman.cupital.xyz/api/register",{
+        name:formData.name,
+        email:formData.email,
+        password:formData.password
+      });
+      localStorage.setItem("token",response.data.token);
+      navigate("/app",{replace:true});
+      
+    }catch(error){
+      console.log("error",error);
+    } finally{
+      setLoading(false);
+    }
+    
+  }
 
   return (
     /* PAGE */
@@ -235,8 +265,6 @@ export default function Register() {
       {/* CARD */}
       <Box
         sx={{
-          //width: "900px",
-          //height: "550px",
           borderRadius: "24px",
           overflow: "hidden",
           display: "flex",
@@ -251,8 +279,6 @@ export default function Register() {
         {/* LEFT SIDE (FORM) */}
         <Box
           sx={{
-            //width: "40%",
-            //padding: "100px 20px",
             background: "linear-gradient(180deg, #f2f2f2, #fcefbd)",
             display: "flex",
             flexDirection: "column",
@@ -302,6 +328,8 @@ export default function Register() {
                   fontSize: "14px",
                 },
               }}
+              value={formData.name}
+              onChange={(e)=>setFormData({...formData,name:e.target.value})}
             />
 
             {/* EMAIL */}
@@ -310,7 +338,6 @@ export default function Register() {
               variant="standard"
               sx={{
                 marginBottom: "18px",
-                //width: "55%",
 
                 /* 📱 mobile */
                 width: { xs: "100%", md: "55%" },
@@ -319,6 +346,8 @@ export default function Register() {
                   fontSize: "14px",
                 },
               }}
+              value={formData.email}
+              onChange={(e)=>setFormData({...formData,email:e.target.value})}
             />
 
             {/* PASSWORD */}
@@ -328,7 +357,6 @@ export default function Register() {
               type="password"
               sx={{
                 marginBottom: "18px",
-                //width: "55%",
 
                 /* 📱 mobile */
                 width: { xs: "100%", md: "55%" },
@@ -337,18 +365,21 @@ export default function Register() {
                   fontSize: "14px",
                 },
               }}
+              value={formData.password}
+              onChange={(e)=>setFormData({...formData,password:e.target.value})}
             />
 
             {/* SUBMIT */}
             <Button
-              onClick={() => navigate("/app")}
+              // onClick={() => navigate("/app")}
+              onClick={RegisterUser}
               sx={{
                 height: "35px",
                 borderRadius: "24px",
                 background: "#000",
                 fontWeight: 600,
                 marginTop: "10px",
-                //width: "55%",
+                
                 textTransform: "none",
                 color: "#fff",
                 "&:hover": { backgroundColor: "#2c2b2b" },
@@ -357,10 +388,11 @@ export default function Register() {
                 width: { xs: "100%", md: "55%" },
               }}
             >
-              Submit
+              {Loading ? "loading..." : "Submit"}
             </Button>
 
             {/* GOOGLE */}
+
             <Button
               variant="outlined"
               startIcon={<GoogleIcon />}
@@ -370,10 +402,10 @@ export default function Register() {
                 textTransform: "none",
                 fontSize: "12px",
                 color: "#000",
-                //width: "55%",
+                
                 marginTop: "10px",
 
-                /* 📱 mobile */
+                // 📱 mobile 
                 width: { xs: "100%", md: "55%" },
               }}
             >
@@ -384,9 +416,9 @@ export default function Register() {
             <Typography
               sx={{
                 marginTop: "30px",
-                //marginRight: "120px",
+                
                 color: "#979393",
-                fontSize: "13px",
+                fontSize: "14px",
 
                 /* 📱 mobile */
                 marginRight: { xs: 0, md: "120px" },

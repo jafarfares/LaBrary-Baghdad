@@ -15,12 +15,15 @@ import MyLibrary from "./component/MyLibrary";
 import Setting from "./component/Setting";
 import Favorite from "./component/Favorite";
 import Download from "./component/Download";
+import Logout from "./component/Logout";
 //MUI
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Route, Routes } from "react-router-dom";
 //Context
 import theme from "./Context/theme";
+//
+//import GuestRoute from "./component/GuestRoute";
 
 function App() {
   return (
@@ -42,6 +45,7 @@ function App() {
           <Route path="MyLibrary" element={<MyLibrary/>}/>
           <Route path="Favorite" element={<Favorite/>}/>
           <Route path="Download" element={<Download/>}/>
+          <Route path="Logout" element={<Logout/>}/>
           <Route path="Setting" element={<Setting/>}/>
         </Route>
       </Routes>
