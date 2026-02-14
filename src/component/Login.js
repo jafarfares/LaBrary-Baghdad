@@ -211,7 +211,7 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { useNavigate } from "react-router-dom";
 import bookImage1 from "../images/main_reading_room_cambridge_university_library_web_banner.jpg";
 //react
-import { useEffect, useState } from "react";
+import { useState } from "react";
 //axios
 import axios from "axios";
 export default function Login() {
