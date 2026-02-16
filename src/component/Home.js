@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, CardMedia, Card } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 
 import bookImage1 from "../images/download.png";
@@ -226,7 +226,7 @@ export default function Home() {
                 >
                   {/* Card {index + 1} */}
                   {/* <CardMedia component="img" image={img} sx={{ objectFit: "contain",width:"100%",height:"100%",borderRadius: 5  }} /> */}
-                  <img al="sorry" src={img} style={{width:"100%",height:"100%"}}/>
+                  <img alt="sorry" src={img} style={{width:"100%",height:"100%"}}/>
                 </Box>
               ))}
             </Box>
