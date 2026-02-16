@@ -1,4 +1,4 @@
-import { Box, List ,Button} from "@mui/material";
+import { Box, List ,Button,Typography} from "@mui/material";
 
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ImportContactsOutlinedIcon from '@mui/icons-material/ImportContactsOutlined';
@@ -9,6 +9,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
 import { NavLink } from "react-router-dom";
 const menu = [
   {name:"Home",path: "/app",icon:<HomeOutlinedIcon style={{padding:"5px",borderRadius:"7px",background:"#F8946C",fontSize:"27px",color:"#fff"}}/>},
@@ -28,18 +29,18 @@ export default function Sidebar() {
   return (
     <Box
       sx={{
-        padding:"2px",
+        padding:"0.50rem",
         position:"fixed",
         height:"100vh",
         width:180,
         display:"flex",
         alignItems:"center",
-        flexDirection:"column"
-        
+        flexDirection:"column",
+        bgcolor:"red"
       }}
     >
       {/* <h4 style={{margin:0,display:"flex",justifyContent:"start",marginTop:"15px"}}>THE BOOKS</h4> */}
-      <h6 style={{margin:0,color:"#D2D2D0",marginRight:"65px",marginTop:"30px"}}>MENU</h6>
+      <Typography sx={{margin:0,color:"#D2D2D0",marginRight:"65px",marginTop:"30px",fontSize:"10px"}}>MENU</Typography>
       <List sx={{display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
         {menu.map((item,index) => (
           <NavLink
@@ -55,7 +56,7 @@ export default function Sidebar() {
               borderRadius: 2,
               display:"flex",
               flexDirection:"row",
-              gap:"10px",
+              gap:"1rem",
               width:"100%",
               alignItems:"start",
               justifyContent:"start",
@@ -97,7 +98,7 @@ export default function Sidebar() {
               borderRadius: 2,
               display:"flex",
               flexDirection:"row",
-              gap:"10px",
+              gap:"1rem",
               width:"100%",
               alignItems:"start",
               justifyContent:"start",
