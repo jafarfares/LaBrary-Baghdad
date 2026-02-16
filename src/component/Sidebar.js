@@ -36,10 +36,8 @@ export default function Sidebar() {
         display:"flex",
         alignItems:"center",
         flexDirection:"column",
-        bgcolor:"red"
       }}
     >
-      {/* <h4 style={{margin:0,display:"flex",justifyContent:"start",marginTop:"15px"}}>THE BOOKS</h4> */}
       <Typography sx={{margin:0,color:"#D2D2D0",marginRight:"65px",marginTop:"30px",fontSize:"10px"}}>MENU</Typography>
       <List sx={{display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
         {menu.map((item,index) => (

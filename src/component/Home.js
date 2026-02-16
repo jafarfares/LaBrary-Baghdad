@@ -111,7 +111,7 @@ export default function Home() {
   }, [maxIndex]);
 
   return (
-    <Box sx={{ marginLeft: { md: "110px" } }}>
+    <Box sx={{ marginLeft: { md: "110px",lg:"110px" } }}>
       <Typography variant="h4" fontWeight="bold" mb={2}>
         News
       </Typography>
@@ -211,8 +211,8 @@ export default function Home() {
                   key={i}
                   sx={{
                     flex: "0 0 auto",
-                    width: {xs:100,md:160,lg:180},
-                    height: {xs:150,md:220,lg:240},
+                    width: {xs:100,md:"17%",lg:"18%"},
+                    height: {xs:150,md:220,lg:230},
                     mr: 2,
                     borderRadius: 2,
                     bgcolor: "red",
@@ -224,8 +224,7 @@ export default function Home() {
                     overflow:"hidden"
                   }}
                 >
-                  {/* Card {index + 1} */}
-                  {/* <CardMedia component="img" image={img} sx={{ objectFit: "contain",width:"100%",height:"100%",borderRadius: 5  }} /> */}
+                  
                   <img alt="sorry" src={img} style={{width:"100%",height:"100%"}}/>
                 </Box>
               ))}
