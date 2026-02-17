@@ -3,11 +3,11 @@
 //MUI
 import { Box, Button, Typography } from "@mui/material";
 //images
-import bookImage1 from "../images/download.png";
-import bookImage2 from "../images/download (2).png";
-import bookImage3 from "../images/photo_2026-01-14_14-18-27.jpg";
-import bookImage4 from "../images/download (1).png";
-import bookImage5 from "../images/download (1).jfif";
+import bookImage1 from "../Assets/images/logo.jfif";
+import bookImage2 from "../Assets/images/logo.png";
+import bookImage3 from "../Assets/images/logo.jpg";
+import bookImage4 from "../Assets/images/logo1.png";
+import bookImage5 from "../Assets/images/logo2.png";
 //Router
 import { useNavigate } from "react-router-dom";
 

@@ -13,8 +13,8 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 
 // images
-import bookImage5 from "../images/download (1).jfif";
-
+// import bookImage5 from "../images/download (1).jfif";
+import bookImage5 from "../Assets/images/logo2.png";
 export default function ShowBook() {
   const Navigate = useNavigate();
   const [tab, setTab] = useState("details"); // details | comments

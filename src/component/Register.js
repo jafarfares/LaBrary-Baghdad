@@ -212,7 +212,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 // image
-import bookImage1 from "../images/download (3).jfif";
+import bookImage1 from "../Assets/images/logoRegister.jpg";
 // router
 import { useNavigate } from "react-router-dom";
 //axios

@@ -14,8 +14,8 @@ import {
   Rating,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import bookImage2 from "../images/download (2).png";
-
+//image
+import bookImage2 from "../Assets/images/logo.png";
 const fieldStyle = {
   backgroundColor: "#fff",
   borderRadius: "10px",

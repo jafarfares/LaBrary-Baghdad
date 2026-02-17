@@ -52,7 +52,7 @@ export default function Sidebar() {
             key={index}
             sx={{
               borderRadius: 2,
-              display:"flex",
+              display:{xs:"flex",lg:index>3?"none":"flex"},
               flexDirection:"row",
               gap:"1rem",
               width:"100%",
@@ -60,7 +60,7 @@ export default function Sidebar() {
               justifyContent:"start",
               color:"#AFAFAF",
               "&:hover":{
-                  backgroundColor:"#f1f5ff"
+                backgroundColor:"#f1f5ff"
               }
               
             }}
@@ -82,7 +82,7 @@ export default function Sidebar() {
 
         <hr style={{border:"1px solid #AFAFAF",width:"100%"}}></hr>
 
-        {settings.map((item) => (
+        {settings.map((item,index) => (
 
           <NavLink
            key={item.name}
@@ -94,7 +94,8 @@ export default function Sidebar() {
             
             sx={{
               borderRadius: 2,
-              display:"flex",
+              display:"flex",          
+              
               flexDirection:"row",
               gap:"1rem",
               width:"100%",
