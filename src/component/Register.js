@@ -233,16 +233,16 @@ export default function Register() {
   async function RegisterUser(){
     try{
       setLoading(true);
-      const response =await axios.post("https://abdalrhman.cupital.xyz/api/register",{
+      const res =await axios.post("https://abdalrhman.cupital.xyz/api/register",{
         name:formData.name,
         email:formData.email,
         password:formData.password
-      });
-      localStorage.setItem("token",response.data.token);
-      navigate("/app",{replace:true});
+      },);
+      localStorage.setItem("token",res.data.payload.token);
+      navigate("/app");
       
     }catch(error){
-      console.log("error",error);
+      console.log("error lldmgl",error);
     } finally{
       setLoading(false);
     }

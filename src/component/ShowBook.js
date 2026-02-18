@@ -4,7 +4,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button, Avatar, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 // icons
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
@@ -13,11 +15,26 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 
 // images
-// import bookImage5 from "../images/download (1).jfif";
+
 import bookImage5 from "../Assets/images/logo2.png";
 export default function ShowBook() {
+  const { id } = useParams();
   const Navigate = useNavigate();
   const [tab, setTab] = useState("details"); // details | comments
+  const [show,setShow]=useState(null);
+
+  useEffect(()=>{
+    async function ShowBookDet(){
+      try{
+        const token =localStorage.getItem("token");
+        const res=await axios.get(`https://abdalrhman.cupital.xyz/api/user/books/${id}`,{ headers: { Authorization: `Bearer ${token}` } })
+        setShow(res.data.payload);
+      }catch(err){
+        console.log("error",err);
+      }
+    }
+    ShowBookDet();
+  },[]);
 
   return (
     <Container maxWidth="xl" sx={{ p: 0 }}>
@@ -50,7 +67,7 @@ export default function ShowBook() {
             }}
           >
             <img
-              src={bookImage5}
+              src={show?.image_url || "https://via.placeholder.com/150"}
               alt="book"
               style={{
                 width: "100%",
@@ -62,10 +79,10 @@ export default function ShowBook() {
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: "7px" }}>
             <Typography variant={  "h4" } sx={{ fontWeight: 500 }}>
-              HarryPotter:Half <br sx={{display:{xs:"none",md:"block"}}}/> Blood Prince
+              {show?.title}
             </Typography>
             <Typography sx={{ fontWeight: 500, fontSize: "17px" }}>
-              JK Rowling
+              {show?.author_name}
             </Typography>
             <Box sx={{ display: "flex", gap: "5px" }}>
               <Button sx={{ backgroundColor: "#b1b4b2", color: "#fff", borderRadius: "25px" }}>Romantic</Button>
@@ -128,15 +145,15 @@ export default function ShowBook() {
                   Description
                 </Typography>
                 <Typography fontSize="12px">
-                  kladvklklvmklsfklbklsfaklbklfsaklbsf scnjsnjcnj v dn vjk dajVJAva
+                  {show?.description}
                 </Typography>
                 </Box>
                 <Box sx={{display:"flex",flexDirection:"column",gap:"12px"}}>
                 <Typography fontWeight="bold" fontSize="15px">
-                  Roberto Jordan
+                  {show?.author_name}
                 </Typography>
                 <Typography fontSize="12px">
-                  kladvklklvmklsfklbklsfaklbklfsaklbsf
+                  {show?.description}
                 </Typography>
                 </Box>
               </Box>
@@ -186,7 +203,7 @@ export default function ShowBook() {
                 <Typography fontWeight="bold" fontSize="15px">
                   Language
                 </Typography>
-                <Typography fontSize="12px">English</Typography>
+                <Typography fontSize="12px">{show?.language}</Typography>
                 </Box>
 
                 <Box sx={{display:"flex",flexDirection:"column",gap:"12px"}}>

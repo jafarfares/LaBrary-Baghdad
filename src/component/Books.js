@@ -33,7 +33,7 @@ const fieldStyle = {
 export default function Books() {
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{ display: "flex", flexDirection: "column", gap: "30px" }}
     >
       <Box
@@ -88,7 +88,7 @@ export default function Books() {
             }}
           >
             <MenuItem value="">
-              <em>Sort by: Title (A–Z)</em>
+              Sort by: Title (A–Z)
             </MenuItem>
             <MenuItem value="za">Title (Z–A)</MenuItem>
             <MenuItem value="author">Author</MenuItem>
@@ -128,7 +128,7 @@ export default function Books() {
                 }}
               >
                 <MenuItem value="">
-                  <em>All {item}</em>
+                  All {item}
                 </MenuItem>
               </Select>
             </Box>

@@ -266,27 +266,6 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import { Box, Typography } from "@mui/material";
 // import { useState, useEffect, useRef } from "react";
 
@@ -538,17 +517,11 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
 import { Box, Typography } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useRef } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import bookImage1 from "../Assets/images/logo.jfif";
 import bookImage2 from "../Assets/images/logo.png";
 import bookImage3 from "../Assets/images/logo.jpg";
@@ -556,6 +529,7 @@ import bookImage4 from "../Assets/images/logo1.png";
 import bookImage5 from "../Assets/images/logo2.png";
 
 import DialogNews from "./DialogNews";
+import ShowBook from "./ShowBook";
 
 const books = [
   bookImage1,
@@ -621,8 +595,17 @@ const items = [
 export default function Home() {
   const [open, setOpen] = useState(false);
 
+  //Best Book
+  const [bestBook, setBestBook] = useState([]);
+  //News
+  const [news, setNews] = useState([]);
+  //show New
+  const [selectedNews, setSelectedNews] = useState(null);
+
   const newsRef = useRef(null);
   const bestRef = useRef(null);
+
+  const navigate=useNavigate();
 
   const sampleNews = {
     title: "The book",
@@ -652,18 +635,19 @@ export default function Home() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [news]);
   /* ===================================================== */
 
   /* ========== BEST BOOK AUTO SCROLL (الجديد) ========== */
   useEffect(() => {
+    const cardsToScroll = 3;
     const container = bestRef.current;
     if (!container) return;
 
     const card = container.children[0];
     if (!card) return;
 
-    const scrollAmount = card.offsetWidth + 16;
+    const scrollAmount = (card.offsetWidth + 16) * cardsToScroll;
 
     const interval = setInterval(() => {
       if (
@@ -680,13 +664,69 @@ export default function Home() {
   }, []);
   /* ===================================================== */
 
+  // API BestBook
+  useEffect(() => {
+    async function BestBook() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.log("User not logged in, redirecting to login page...");
+          return;
+        }
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/books/best",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        setBestBook(res.data.payload.data);
+      } catch (err) {
+        console.log("error kdavmkamklvmkakdka", err);
+      }
+    }
+
+    BestBook();
+  }, []);
+
+  //News
+  useEffect(() => {
+    async function News() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.log("No token found");
+          return;
+        }
+
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/news",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+
+        console.log("NEWS RESPONSE:", res.data); // 👈 مهم
+        setNews(res.data.payload.data);
+      } catch (err) {
+        console.log("NEWS ERROR:", err);
+      }
+    }
+
+    News();
+  }, []);
+
   return (
-    <Box sx={{width:"100%"}}>
-      <Typography variant="h4" fontWeight="bold" mb={2}>
+    <Box sx={{ width: "100%", padding: { md: "0px 10px", lg: "0px 10px" } }}>
+      <Typography variant="h4" sx={{ fontWeight: 550 }} mb={2}>
         News
       </Typography>
 
-      <DialogNews open={open} setOpen={setOpen} news={sampleNews} />
+      {/* <DialogNews open={open} setOpen={setOpen} news={sampleNews} /> */}
+      <DialogNews open={open} setOpen={setOpen} news={selectedNews} />
 
       {/* NEWS */}
       <Box
@@ -702,22 +742,26 @@ export default function Home() {
           },
         }}
       >
-        {items.map((item, index) => (
+        {news.map((item, i) => (
           <Box
-            key={index}
+            key={i}
             sx={{
               position: "relative",
               height: 220,
               borderRadius: 3,
-              width: { xs: "48%", sm: "30%", md: "32%",lg:"300px" },
+              width: { xs: "48%", sm: "30%", md: "32%", lg: "32%" },
               overflow: "hidden",
               flexShrink: 0,
             }}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setSelectedNews(item);
+              setOpen(true);
+            }}
+
           >
             <Box
               component="img"
-              src={item.image}
+              src={item.image_url}
               sx={{ width: "100%", height: "100%" }}
             />
             <Box
@@ -731,10 +775,10 @@ export default function Home() {
                 color: "#fff",
               }}
             >
-              <Typography variant="h5" fontWeight="bold">
+              <Typography variant="h5"  fontWeight="bold">
                 {item.title}
               </Typography>
-              <Typography variant="body2">{item.subtitle}</Typography>
+              <Typography variant="body2"  sx={{display: "-webkit-box",WebkitLineClamp: 3,WebkitBoxOrient: "vertical",overflow:"hidden"}}>{item.description.replace(/<[^>]+>/g, "")}</Typography>
             </Box>
           </Box>
         ))}
@@ -742,7 +786,7 @@ export default function Home() {
 
       {/* BOOK BEST */}
       <Typography variant="h6" mt={5} mb={2} sx={{ color: "#9f9f9f" }}>
-        Book Best
+        Best Books
       </Typography>
 
       <Box
@@ -756,7 +800,7 @@ export default function Home() {
           "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {books.map((img, i) => (
+        {bestBook.map((e, i) => (
           <Box
             key={i}
             sx={{
@@ -766,11 +810,13 @@ export default function Home() {
               mr: 3,
               borderRadius: 2,
               overflow: "hidden",
+              
             }}
+            onClick={()=>navigate(`/app/ShowBook/${e.id}`)}
           >
             <img
               alt="sorry"
-              src={img}
+              src={e.image_url || "https://via.placeholder.com/150"}
               style={{ width: "100%", height: "100%" }}
             />
           </Box>
@@ -778,49 +824,60 @@ export default function Home() {
       </Box>
       {/* BOOK CATEGORY */}
       <Typography variant="h6" mt={5} mb={2} sx={{ color: "#9f9f9f" }}>
-        Book Category
+        Book Recommendation
       </Typography>
-      <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap",width:"100%",justifyContent: "center" }}>
-        {["Design", "Romantic", "Religious", "Philosophical"].map(
-          (title, index) => (
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          flexWrap: "wrap",
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        {[
+          "The Republic",
+          "A Brief History of Time",
+          "The Story of Art",
+          "The Elegant Universe",
+        ].map((title, index) => (
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              width: { xs: "45%", sm: "30%", md: "21%", lg: "23%" },
+            }}
+          >
             <Box
-              key={index}
               sx={{
-                display:"flex",
-                flexDirection:"column",
-                alignItems:"center",
-                justifyContent:"center",
-                textAlign: "center",
-                width: { xs: "45%", sm: "30%", md: "21%", lg: "21%" },
+                bgcolor: "#F6F6F6",
+                borderRadius: "12px",
+                width: "100%",
+                height: "80px",
+                position: "relative",
+                mt: "70px",
               }}
             >
               <Box
+                component="img"
+                src={bookImage2}
                 sx={{
-                  bgcolor: "#F6F6F6",
-                  borderRadius: "12px",
-                  width: "100%",
-                  height: "80px",
-                  position: "relative",
-                  mt: "70px",
+                  width: "100px",
+                  position: "absolute",
+                  top: "-70px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  height: "150px",
                 }}
-              >
-                <Box
-                  component="img"
-                  src={bookImage2}
-                  sx={{
-                    width: "100px",
-                    position: "absolute",
-                    top: "-70px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    height: "150px",
-                  }}
-                />
-              </Box>
-              <Typography mt={2}>{title}</Typography>
+              />
             </Box>
-          ),
-        )}
+            <Typography mt={2}>{title}</Typography>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

@@ -40,7 +40,7 @@ function App() {
           <Route path="Community" element={<Community />} />
           <Route path="Research" element={<Research />} />
           <Route path="Books" element={<Books />} />
-          <Route path="ShowBook" element={<ShowBook/>}/>
+          <Route path="ShowBook/:id" element={<ShowBook/>}/>
           <Route path="ShowGroup" element={<ShowGroup/>}/>
           <Route path="MyLibrary" element={<MyLibrary/>}/>
           <Route path="Favorite" element={<Favorite/>}/>
