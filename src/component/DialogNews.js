@@ -174,7 +174,7 @@ export default function DialogNews({ open, setOpen, news }) {
       {/* Header */}
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-          {newsDetail?.title || news.title}
+          {newsDetail?.title.replace(/<[^>]+>/g, "") || news.title}
         </Typography>
         <IconButton onClick={handleClose}>
           <CloseIcon />
@@ -184,7 +184,7 @@ export default function DialogNews({ open, setOpen, news }) {
       {/* Image */}
       <Box
         component="img"
-        src={newsDetail?.image_url || news.image || ""}
+        src={newsDetail?.image_url.replace(/<[^>]+>/g, "") || news.image || ""}
         alt="news"
         sx={{
           width: "100%",
@@ -204,7 +204,7 @@ export default function DialogNews({ open, setOpen, news }) {
         }}
       >
         <Typography sx={{ fontSize: "16px", lineHeight: 1.6 }}>
-          {newsDetail?.description || news.description}
+          {newsDetail?.description.replace(/<[^>]+>/g, "") || news.description}
         </Typography>
       </Box>
 

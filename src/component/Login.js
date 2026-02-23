@@ -10,38 +10,34 @@ export default function Login() {
   const navigate = useNavigate();
   const [Data,setData]=useState({email:null,password:null});
   const [Loading,setLoading]=useState(false);
-
+  
+  //  {
+  //       headers:{
+          
+  //         Authorization:`Bearer ${token}`
+  //       }
+  //     }
   
   async function LoginUser(){
     try{
+
         setLoading(true);
+        // const token = localStorage.getItem("token");
+        // if(!token){
+        //   console.log("error in login");
+        //   return;
+        // }
         const response=await axios.post("https://abdalrhman.cupital.xyz/api/login",{
         email:Data.email,
         password:Data.password
-      },{
-        headers:{
-          // "Content-Type":"application/json",
-          Authorization:`Bearer ${localStorage.getItem("token")}`
-        }
       });
-      localStorage.setItem("token",response.data.token);
+      localStorage.setItem("token",response.data.payload.token);
       navigate("/app",{replace:true});
-      console.log("response",response.data);
     }catch(error){
       console.log("error",error);
     }
   }
-  //useEffect
-  // useEffect(()=>{
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     navigate("/app");
-  //   }
-  // },[]);
-  //Google
-  // const handlGoogleLogin=()=>{
-  //   window.location.href="https://abdalrhman.cupital.xyz/api/auth/google";
-  // }
+
   return (
     /* PAGE */
     <Box
@@ -222,7 +218,7 @@ export default function Login() {
                 width: { xs: "100%", md: "70%" },
                 marginLeft: { xs: 0, md: "62px" },
               }}
-              // onClick={handlGoogleLogin}
+              
             >
               Continue with Google
             </Button>

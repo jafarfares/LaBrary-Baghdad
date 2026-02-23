@@ -23,6 +23,7 @@ export default function Hero() {
         height: "100vh",
         overflow: "hidden",
         bgcolor: "#eef1f6",
+        // height: "800px",
       }}
     >
       {/* Navbar */}
@@ -80,7 +81,7 @@ export default function Hero() {
       >
         <Typography
           sx={{
-            fontSize: { xs: "23px", md: "30px" },
+            fontSize: { xs: "23px", md: "30px",lg:"32px" },
             fontWeight: 700,
             textAlign: "center",
             mt: {xs:8,md:4},
@@ -92,7 +93,7 @@ export default function Hero() {
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "13px", md: "15px" },
+            fontSize: { xs: "13px", md: "15px",lg:"16px" },
             fontWeight: 500,
             color: "#8d8787",
           }}
@@ -102,7 +103,7 @@ export default function Hero() {
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "12px", md: "15px" },
+            fontSize: { xs: "12px", md: "15px",lg:"16px" },
             fontWeight: 500,
             color: "#8d8787",
           }}
