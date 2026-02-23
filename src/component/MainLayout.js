@@ -1,6 +1,6 @@
 // MUI
 import { Box, Button } from "@mui/material";
-import { IconButton, Menu, MenuItem,Typography } from "@mui/material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 
 // Router
 import { Outlet, NavLink, useNavigate } from "react-router-dom";

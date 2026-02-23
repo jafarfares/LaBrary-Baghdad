@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button, Avatar, TextField } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,7 +24,7 @@ import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js";
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 export default function ShowBook() {
   const { id } = useParams();
-  const Navigate = useNavigate();
+  
   const [tab, setTab] = useState("details"); // details | comments
   const [show, setShow] = useState(null);
   const [showPdf, setShowPdf] = useState(false);
