@@ -20,10 +20,12 @@ export default function Hero() {
   return (
     <Box
       sx={{
-        height: "100vh",
+        // height: "100vh",
+        minHeight: "100vh",
         overflow: "hidden",
         bgcolor: "#eef1f6",
         // height: "800px",
+        width:"100%"
       }}
     >
       {/* Navbar */}
@@ -73,10 +75,11 @@ export default function Hero() {
       {/* Content */}
       <Box
         sx={{
-          height: "calc(100vh - 80px)",
+          minHeight: "calc(100vh - 80px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          width:"100%"
         }}
       >
         <Typography
@@ -84,7 +87,7 @@ export default function Hero() {
             fontSize: { xs: "23px", md: "30px",lg:"32px" },
             fontWeight: 700,
             textAlign: "center",
-            mt: {xs:8,md:4},
+            mt: {xs:8,md:4,lg:4},
             lineHeight: 1.2,
             mb: 1,
           }}
@@ -93,17 +96,18 @@ export default function Hero() {
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "13px", md: "15px",lg:"16px" },
+            fontSize: { xs: "10px", md: "15px",lg:"16px" },
             fontWeight: 500,
             color: "#8d8787",
+          
           }}
         >
           Welcome to Baghdad Library. Your window to the world of knowledge and
-          meaningful
+          meaningful 
         </Typography>
         <Typography
           sx={{
-            fontSize: { xs: "12px", md: "15px",lg:"16px" },
+            fontSize: { xs: "10px", md: "15px",lg:"16px" },
             fontWeight: 500,
             color: "#8d8787",
           }}
@@ -115,12 +119,12 @@ export default function Hero() {
           sx={{
             position: "relative",
             flexGrow: 1,
-            width: {xs:"100%",md:"100%"},
+            width: {xs:"100%",md:"100%",lg:"100%"},
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-end",
             pb: 4,
-            marginRight:{xs:"25px",md:"44px"},
+            marginRight:{xs:"5px",md:"44px",lg:"44px"},
           }}
         >
           {/* Book 1 */}
@@ -131,7 +135,7 @@ export default function Hero() {
               position: "absolute",
               left: "50%",
               transform: "translateX(-230px)",
-              height: { xs: "180px", md: "220px" },
+              height: { xs: "180px", md: "220px",lg:"220px" },
               zIndex: 1,
             }}
           />
@@ -144,7 +148,7 @@ export default function Hero() {
               position: "absolute",
               left: "50%",
               transform: "translateX(-160px)",
-              height: { xs: "220px", md: "260px" },
+              height: { xs: "220px", md: "260px",lg:"260px" },
               zIndex: 2,
             }}
           />
@@ -157,7 +161,7 @@ export default function Hero() {
               position: "absolute",
               left: "50%",
               transform: "translateX(-50%)",
-              height: { xs: "260px", md: "300px" },
+              height: { xs: "260px", md: "300px",lg:"300px" },
               zIndex: 3,
             }}
           />
@@ -169,8 +173,8 @@ export default function Hero() {
             sx={{
               position: "absolute",
               left: "50%",
-              transform: "translateX(10px)",
-              height: { xs: "220px", md: "260px" },
+              transform: "translateX(4px)",
+              height: { xs: "220px", md: "260px",lg:"260px" },
               zIndex: 2,
             }}
           />
@@ -182,8 +186,8 @@ export default function Hero() {
             sx={{
               position: "absolute",
               left: "50%",
-              transform: "translateX(140px)",
-              height: { xs: "180px", md: "220px" },
+              transform: "translateX(110px)",
+              height: { xs: "180px", md: "220px",lg:"220px" },
               zIndex: 1,
             }}
           />

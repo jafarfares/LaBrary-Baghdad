@@ -14,16 +14,22 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileSettingsCard from "./ProfileSettingsCard";
-
+//components
+import Favorite from "./Favorite";
+import Download from "./Download";
+import MyLibrary from "./MyLibrary";
+import Setting from "./Setting";
 
 export default function Profile() {
   const [active, setActive] = useState("profile");
   const [getImagePro, setGetImagePro] = useState(null);
   const menu = [
     { id: "profile", label: "Profile", icon: <PersonIcon />, count: null },
-    { id: "reading", label: "Reading", icon: <MenuBookIcon />, count: 3 },
     { id: "favorite", label: "Favorite", icon: <FavoriteIcon />, count: 12 },
-    { id: "wishlist", label: "Wishlist", icon: <BookmarkIcon />, count: 8 },
+    { id: "download", label: "Download", icon: <BookmarkIcon />, count: 8 },
+    { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />, count: 3 },
+    { id: "setting", label: "Setting", icon: <PersonIcon />, count: null },
+    { id: "logout", label: "Logout", icon: <PersonIcon />, count: null },
   ];
 
   useEffect(()=>{
@@ -50,7 +56,6 @@ export default function Profile() {
         display: "flex",
         gap: "25px",
         padding: "20px 0px",
-        // marginLeft: { xs: 0, md: "20px" },
 
         /* 📱 mobile */
         flexDirection: { xs: "column", md: "row",lg:"row" },
@@ -63,7 +68,7 @@ export default function Profile() {
           backgroundColor: "#fff",
           paddingBottom:{xs:"20px"},
           borderRadius: "25px",
-          display: "flex",
+          display: {xs:"none",sm:"none",md:"flex",lg:"flex",xl:"flex"},
           flexDirection: "column",
           alignItems: "center",
           pt: 4,
@@ -72,7 +77,7 @@ export default function Profile() {
 
           /* 📱 mobile */
           width: { xs: "100%", md: "30%" ,lg:"30%"},
-          height: { xs: "auto", md: "500px" ,lg:"500px"},
+          height: { xs: "auto", md: "600px" ,lg:"600px"},
         }}
       >
         {/* Avatar */}
@@ -115,7 +120,7 @@ export default function Profile() {
             color: "#2e2b26",
           }}
         >
-          {/* Abd Alrhman */}
+          {/* fullname */}
           {getImagePro?.fullname}
         </Typography>
 
@@ -182,14 +187,25 @@ export default function Profile() {
       {/* ===== RIGHT CARD ===== */}
       <Box
         sx={{
-          // width: "65%",
-
           /* 📱 mobile */
-          width: { xs: "100%", md: "65%",lg:"65%" },
-          
-        }}
+          width: { xs: "100%", md: "65%",lg:"65%" },bgcolor:"#FFFFFF",borderRadius: "28px",}}
       >
-        <ProfileSettingsCard />
+        {/* <ProfileSettingsCard /> */}
+        {active === "profile" && <ProfileSettingsCard />}
+        {active === "favorite" && <Favorite />}
+        {active === "download" && <Download />}
+        {active === "myLibrary" && <MyLibrary />}
+        {active === "setting" && <Setting />}
+        {active === "logout" && (
+          <Box sx={{ p: 4 }}>
+            <Typography fontSize={16} fontWeight={500}>
+              Are you sure you want to logout?
+            </Typography>
+            <Button sx={{ mt: 2 }} variant="contained" color="error">
+              Logout
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

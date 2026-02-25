@@ -8,7 +8,7 @@ import MainLayout from "./component/MainLayout";
 import Home from "./component/Home";
 import Books from "./component/Books";
 import Community from "./component/Community";
-import Research from "./component/Research";
+// import Research from "./component/Research";
 import ShowBook from "./component/ShowBook";
 import ShowGroup from "./component/ShowGroup";
 import MyLibrary from "./component/MyLibrary";
@@ -21,12 +21,50 @@ import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Route, Routes } from "react-router-dom";
 //Context
-import theme from "./Context/theme";
-//
+// import theme from "./Context/theme";
+
 //import GuestRoute from "./component/GuestRoute";
 
+import ColorModeContext from "./Context/ColorModeContext";
+import { createTheme } from "@mui/material/styles";
+import { useMemo, useState } from "react";
+
 function App() {
+
+
+
+  
+     const [mode, setMode] = useState("light");
+
+  const colorMode = useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prev) => (prev === "light" ? "dark" : "light"));
+      },
+    }),
+    []
+  );
+
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: mode,
+        },
+        typography: {
+          fontFamily: "Cairo, sans-serif",
+        },
+      }),
+    [mode]
+  );
+
+
+
+
   return (
+
+    <ColorModeContext.Provider value={colorMode}>
+    
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
@@ -38,7 +76,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="Profile" element={<Profile />} />
           <Route path="Community" element={<Community />} />
-          <Route path="Research" element={<Research />} />
+          {/* <Route path="Research" element={<Research />} /> */}
           <Route path="Books" element={<Books />} />
           <Route path="ShowBook/:id" element={<ShowBook/>}/>
           <Route path="ShowGroup" element={<ShowGroup/>}/>
@@ -50,6 +88,8 @@ function App() {
         </Route>
       </Routes>
     </ThemeProvider>
+    </ColorModeContext.Provider>
+   
   );
 }
 

@@ -15,7 +15,12 @@ import MusicNoteOutlinedIcon from "@mui/icons-material/MusicNoteOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import ImportContactsOutlinedIcon from "@mui/icons-material/ImportContactsOutlined";
 //pdf.js
 import { useRef } from "react";
 import * as pdfjsLib from "pdfjs-dist";
@@ -24,13 +29,29 @@ import pdfWorker from "pdfjs-dist/build/pdf.worker.min.js";
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 export default function ShowBook() {
   const { id } = useParams();
-  
+
   const [tab, setTab] = useState("details"); // details | comments
   const [show, setShow] = useState(null);
   const [showPdf, setShowPdf] = useState(false);
   const [PostCommint, setPostCommint] = useState([]); //manu comments
   const [commentText, setCommentText] = useState("");
   const [getImagePro, setGetImagePro] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isRead, setIsRead] = useState(false);
+
+  const [selectedComment, setSelectedComment] = useState(null);
+
+  const handleMenuOpen = (event, comment) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedComment(comment);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedComment(null);
+  };
 
   //pdf.js
   const canvasRef = useRef(null);
@@ -101,7 +122,6 @@ export default function ShowBook() {
         return;
       }
 
-      // الآن نمرر الرابط مباشرة
       console.log("PDF URL:", pdfUrl);
       const loadingTask = pdfjsLib.getDocument(pdfUrl);
       const pdf = await loadingTask.promise;
@@ -143,7 +163,6 @@ export default function ShowBook() {
       const addedComment = res.data.payload.data;
       setPostCommint((prev) => [...prev, addedComment]);
       setCommentText("");
-      console.log("Create Comment");
     } catch (err) {
       console.log("error", err);
     }
@@ -189,6 +208,129 @@ export default function ShowBook() {
     getImageProfile();
   }, []);
 
+  //delete comment
+  async function DeleteComment() {
+    try {
+      await axios.delete(
+        `https://abdalrhman.cupital.xyz/api/user/book/comment/${selectedComment.id}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      setPostCommint((prev) =>
+        prev.filter((comment) => comment.id !== selectedComment.id),
+      );
+      handleMenuClose();
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  //EditComment
+  async function EditComment() {
+    try {
+      await axios.patch(
+        `https://abdalrhman.cupital.xyz/api/user/book/comment/${editingCommentId}/${id}`,
+        {
+          context: commentText,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      setPostCommint((prev) =>
+        prev.map((comment) =>
+          comment.id === editingCommentId
+            ? { ...comment, context: commentText }
+            : comment,
+        ),
+      );
+
+      setEditingCommentId(null);
+      setCommentText("");
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  //add Favorite
+  async function AddFavorite() {
+    try {
+      await axios.get(
+        `https://abdalrhman.cupital.xyz/api/user/books/${id}/add-fav`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      console.log("add the like ");
+      setIsFavorite(true);
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  //remove Favorite
+  async function RemoveFavorite() {
+    try {
+      await axios.post(
+        `https://abdalrhman.cupital.xyz/api/user/books/${id}/remove-fav`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      console.log("remove the like ");
+      setIsFavorite(false);
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
+  //add read list
+  async function addReadList() {
+    try {
+      await axios.get(
+        `https://abdalrhman.cupital.xyz/api/user/books/${id}/add-read`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      setIsRead(true);
+      console.log("add the red list");
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+  //remove read list
+  async function removeReadList() {
+    try {
+      await axios.post(
+        `https://abdalrhman.cupital.xyz/api/user/books/${id}/remove-read`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      setIsRead(false);
+      console.log("remove the red list");
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
+
   return (
     <Container maxWidth="xl" sx={{ p: 0, minHeight: "100vh" }}>
       {showPdf && (
@@ -198,7 +340,6 @@ export default function ShowBook() {
             display: "flex",
             justifyContent: "center",
             mt: 3,
-           
           }}
         >
           <canvas ref={canvasRef} style={{ borderRadius: "6px" }} />
@@ -223,7 +364,7 @@ export default function ShowBook() {
             zIndex: 2,
             marginLeft: { md: "70px" },
             // backgroundColor:"red",
-            width: {xs:"95%",md:"45%",lg:"45%"},
+            width: { xs: "95%", md: "45%", lg: "45%" },
           }}
         >
           <Box
@@ -246,7 +387,14 @@ export default function ShowBook() {
             />
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "7px",width:{xs:"60%"} }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "7px",
+              width: { xs: "60%" },
+            }}
+          >
             <Typography variant={"h4"} sx={{ fontWeight: 500 }}>
               {show?.title}
             </Typography>
@@ -273,11 +421,11 @@ export default function ShowBook() {
         {/* ===== Card ===== */}
         <Box
           sx={{
-            width: {xs:"95%", md: "80%", lg: "80%", xl: "90%" },
+            width: { xs: "95%", md: "80%", lg: "80%", xl: "90%" },
             backgroundColor: "#FDFCF8",
-            marginTop:{xs:"25px",md: "-50px",lg:"-50px",xl:"-50px"},
+            marginTop: { xs: "25px", md: "-50px", lg: "-50px", xl: "-50px" },
             borderRadius: "6px",
-            padding: {xs:"25px 10px", md: "25px 40px",lg: "25px 40px" },
+            padding: { xs: "25px 10px", md: "25px 40px", lg: "25px 40px" },
             // height:"600px"
           }}
         >
@@ -316,7 +464,7 @@ export default function ShowBook() {
                   flexDirection: "column",
                   gap: "20px",
                   pointerEvents: "none",
-                  marginTop: { xs:"102px",md: "102px",lg:"102px" },
+                  marginTop: { xs: "102px", md: "102px", lg: "102px" },
                 }}
               >
                 <Box
@@ -367,8 +515,8 @@ export default function ShowBook() {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: { md: "60px",lg:"60px", xl: "100px" },
-                    width: {xs:"100%",md:"80%",lg:"80%"},
+                    gap: { md: "60px", lg: "60px", xl: "100px" },
+                    width: { xs: "100%", md: "80%", lg: "80%" },
                     // backgroundColor:"red"
                   }}
                 >
@@ -386,15 +534,36 @@ export default function ShowBook() {
                   </Button>
 
                   <Box sx={{ display: "flex", gap: "10px", mb: "20px" }}>
-                    <BookmarkBorderOutlinedIcon />
+                    {isFavorite ? (
+                      <BookmarkIcon
+                        onClick={RemoveFavorite}
+                        sx={{ cursor: "pointer", color: "#000" }}
+                      />
+                    ) : (
+                      <BookmarkBorderOutlinedIcon
+                        onClick={AddFavorite}
+                        sx={{ cursor: "pointer" }}
+                      />
+                    )}
                     <MusicNoteOutlinedIcon />
+                    {isRead ? (
+                      <ImportContactsOutlinedIcon
+                        onClick={removeReadList}
+                        sx={{ cursor: "pointer", color: "#000" }}
+                      />
+                    ) : (
+                      <ImportContactsOutlinedIcon
+                        onClick={addReadList}
+                        sx={{ cursor: "pointer" }}
+                      />
+                    )}
                     <DownloadOutlinedIcon onClick={DownloadBook} />
                   </Box>
                 </Box>
                 <hr
                   style={{
                     border: "1px solid #f1f1ee",
-                    width: {md:"70%",lg:"70%"},
+                    width: { md: "70%", lg: "70%" },
                     marginBottom: "40px",
                     marginRight: "90px",
                     borderRadius: "3px",
@@ -471,8 +640,13 @@ export default function ShowBook() {
                 }}
               >
               
-
-                <Avatar src={comment.profile_image}/>
+                
+              eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FiZGFscmhtYW4uY3VwaXRhbC54eXovYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzcxODY3NzcxLCJleHAiOjE3NzE5NTQxNzEsIm5iZiI6MTc3MTg2Nzc3MSwianRpIjoiUVlDd3hON2x1STFrS0NPbCIsInN1YiI6IjY3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.OwFjMfjkgS57pOUJsnmbgai3JZ5Lcvrz4XdhkA7G-ak
+                
+              
+              
+              
+              <Avatar src={comment.profile_image}/>
                 <Box>
                   <Typography fontSize="13px" fontWeight="bold">
                     {comment.profile_name}
@@ -510,7 +684,7 @@ export default function ShowBook() {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                height: "307px", 
+                height: "307px",
                 border: "1px solid #ddd",
                 borderRadius: "8px",
                 overflow: "hidden",
@@ -527,7 +701,7 @@ export default function ShowBook() {
                   gap: 2,
                 }}
               >
-                {PostCommint.length === 0 ? (
+                {/* {PostCommint.length === 0 ? (
                   <Box
                     sx={{
                       flex: 1,
@@ -563,9 +737,94 @@ export default function ShowBook() {
                           {comment.context}
                         </Typography>
                       </Box>
+                      <IconButton
+                       size="small"
+                       onClick={(e) => handleMenuOpen(e, comment)}
+                      >
+                        <MoreVertIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  ))
+                )} */}
+                {PostCommint.length === 0 ? (
+                  <Box
+                    sx={{
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#888",
+                      fontStyle: "italic",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <ChatBubbleOutlineIcon sx={{ fontSize: 40 }} />
+                    There are no comments
+                  </Box>
+                ) : (
+                  PostCommint.map((comment) => (
+                    <Box
+                      key={comment.id}
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        background: "#fff",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <Avatar src={comment.profile_image} />
+
+                      <Box sx={{ flex: 1 }}>
+                        {/* اسم المستخدم + زر الثلاث نقاط */}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography fontSize="13px" fontWeight="bold">
+                            {comment.profile_name}
+                          </Typography>
+
+                          {/* يظهر فقط إذا كان المستخدم هو صاحب الكومنت */}
+
+                          <IconButton
+                            size="small"
+                            onClick={(e) => handleMenuOpen(e, comment)}
+                            sx={{ padding: "4px" }}
+                          >
+                            <MoreVertIcon fontSize="small" />
+                          </IconButton>
+                        </Box>
+
+                        {/* نص التعليق */}
+                        <Typography fontSize="12px" mt="4px">
+                          {comment.context}
+                        </Typography>
+                      </Box>
                     </Box>
                   ))
                 )}
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setEditingCommentId(selectedComment.id);
+                      setCommentText(selectedComment.context);
+                      handleMenuClose();
+                    }}
+                  >
+                    Edit
+                  </MenuItem>
+
+                  <MenuItem onClick={DeleteComment}>Delete</MenuItem>
+                </Menu>
               </Box>
 
               {/* Input fixed at bottom */}
@@ -585,8 +844,11 @@ export default function ShowBook() {
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                 />
-                <Button variant="contained" onClick={AddPost}>
-                  Send
+                <Button
+                  variant="contained"
+                  onClick={editingCommentId ? EditComment : AddPost}
+                >
+                  {editingCommentId ? "Save" : "Send"}
                 </Button>
               </Box>
             </Box>

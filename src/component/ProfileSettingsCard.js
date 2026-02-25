@@ -163,7 +163,7 @@ export default function ProfileSettingsCard() {
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 5 }}>
         <PersonOutlineIcon sx={{ color: "#ff9800", fontSize: 30 }} />
         <Typography sx={{ fontSize: 26, fontWeight: 600 }}>
-          Profile Settings
+          Profile 
         </Typography>
       </Box>
 

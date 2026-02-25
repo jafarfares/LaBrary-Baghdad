@@ -22,16 +22,12 @@ export default function Login() {
     try{
 
         setLoading(true);
-        // const token = localStorage.getItem("token");
-        // if(!token){
-        //   console.log("error in login");
-        //   return;
-        // }
         const response=await axios.post("https://abdalrhman.cupital.xyz/api/login",{
         email:Data.email,
         password:Data.password
       });
       localStorage.setItem("token",response.data.payload.token);
+      
       navigate("/app",{replace:true});
     }catch(error){
       console.log("error",error);

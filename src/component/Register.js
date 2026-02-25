@@ -239,6 +239,7 @@ export default function Register() {
         password:formData.password
       },);
       localStorage.setItem("token",res.data.payload.token);
+      localStorage.setItem("id",res.data.payload.id);
       navigate("/app");
       
     }catch(error){
