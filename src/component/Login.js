@@ -8,29 +8,40 @@ import { useState } from "react";
 import axios from "axios";
 export default function Login() {
   const navigate = useNavigate();
-  const [Data,setData]=useState({email:null,password:null});
-  const [Loading,setLoading]=useState(false);
-  
-  //  {
-  //       headers:{
-          
-  //         Authorization:`Bearer ${token}`
-  //       }
-  //     }
-  
-  async function LoginUser(){
-    try{
+  const [Data, setData] = useState({ email: null, password: null });
+  const [Loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  async function LoginUser() {
+    setError("");
+    if(!Data.email||!Data.password){
+      setError("Fill in all fields");
+      return;
+    }
+    if (Data.password.length < 6) {
+      setError("The password must be more than 6 letters or numbers");
+      return;
+    }
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "https://abdalrhman.cupital.xyz/api/login",
+        {
+          email: Data.email,
+          password: Data.password,
+        },
+      );
+      localStorage.setItem("token", response.data.payload.token);
 
-        setLoading(true);
-        const response=await axios.post("https://abdalrhman.cupital.xyz/api/login",{
-        email:Data.email,
-        password:Data.password
-      });
-      localStorage.setItem("token",response.data.payload.token);
-      
-      navigate("/app",{replace:true});
-    }catch(error){
-      console.log("error",error);
+      navigate("/app", { replace: true });
+    } catch (error) {
+      if(error.response&&error.response.status===401){
+        setError("Email or password is incorrect")
+      }
+      if(error.response&&error.response.status===404){
+        setError("No user found with this email")
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -133,7 +144,9 @@ export default function Login() {
                 textAlign: { xs: "center", md: "left" },
               }}
             >
-              <Typography variant="h6" sx={{ margin: 0, fontWeight: 700}}>Sign In</Typography>
+              <Typography variant="h6" sx={{ margin: 0, fontWeight: 700 }}>
+                Sign In
+              </Typography>
               <Typography sx={{ fontSize: "12px", color: "#666" }}>
                 If you have a previous account
               </Typography>
@@ -155,7 +168,7 @@ export default function Login() {
                 },
               }}
               value={Data.email}
-              onChange={(e)=>setData({...Data,email:e.target.value})}
+              onChange={(e) => setData({ ...Data, email: e.target.value })}
             />
 
             {/* PASSWORD */}
@@ -175,8 +188,23 @@ export default function Login() {
                 },
               }}
               value={Data.password}
-              onChange={(e)=>setData({...Data,password:e.target.value})}
+              onChange={(e) => setData({ ...Data, password: e.target.value })}
             />
+
+            {/* Error */}
+            {error && (
+              <Typography
+                sx={{
+                  color: "red",
+                  fontSize: "13px",
+                 
+                  width: { xs: "100%", md: "70%" },
+                  marginLeft: { xs: 0, md: "60px" },
+                }}
+              >
+                {error}
+              </Typography>
+            )}
 
             {/* SIGN IN BUTTON */}
             <Button
@@ -196,7 +224,7 @@ export default function Login() {
                 marginLeft: { xs: 0, md: "62px" },
               }}
             >
-              {Loading ? "Sign In...":"Sign In"}
+              {Loading ? "Sign In..." : "Sign In"}
             </Button>
 
             {/* GOOGLE BUTTON */}
@@ -214,7 +242,6 @@ export default function Login() {
                 width: { xs: "100%", md: "70%" },
                 marginLeft: { xs: 0, md: "62px" },
               }}
-              
             >
               Continue with Google
             </Button>
@@ -228,8 +255,8 @@ export default function Login() {
               color: "#777",
 
               /* 📱 mobile */
-              textAlign: { xs: "center" , md: "left"},
-              marginLeft:{xs:0,md:"10px"}
+              textAlign: { xs: "center", md: "left" },
+              marginLeft: { xs: 0, md: "10px" },
             }}
           >
             Don't have an account?{" "}

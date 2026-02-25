@@ -15,7 +15,7 @@
 //         width: "100%",
 //         height: "100vh",
 //         background: "#eef1f6",
-        
+
 //         display: "flex",
 //         alignItems: "center",
 //         justifyContent: "center",
@@ -186,28 +186,6 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // MUI
 import { Box, Button, TextField, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -224,30 +202,56 @@ export default function Register() {
   const navigate = useNavigate();
 
   //stor data
-  const [formData, setFormData] = useState({name:"",email:"",password:""});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   //Loading
-  const [Loading,setLoading]=useState(false);
+  const [Loading, setLoading] = useState(false);
+  //error
+  const [error, setError] = useState("");
 
   //API
-  
-  async function RegisterUser(){
-    try{
-      setLoading(true);
-      const res =await axios.post("https://abdalrhman.cupital.xyz/api/register",{
-        name:formData.name,
-        email:formData.email,
-        password:formData.password
-      },);
-      localStorage.setItem("token",res.data.payload.token);
-      localStorage.setItem("id",res.data.payload.id);
-      navigate("/app");
-      
-    }catch(error){
-      console.log("error lldmgl",error);
-    } finally{
-      setLoading(false);
+
+  async function RegisterUser() {
+    setError("");
+    if (!formData.name || !formData.email || !formData.password) {
+      setError("Fill in all fields");
+      return;
     }
     
+    if (formData.password.length < 6) {
+      setError("The password must be more than 6 letters or numbers");
+      return;
+    }
+    try {
+      setLoading(true);
+
+      const res = await axios.post(
+        "https://abdalrhman.cupital.xyz/api/register",
+        {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        },
+      );
+      localStorage.setItem("token", res.data.payload.token);
+      localStorage.setItem("id", res.data.payload.id);
+      navigate("/app");
+    } catch (error) {
+      if (error.response?.status === 409) {
+        setError("This email is already registered");
+      } else if (error.response?.status === 422) {
+        setError("Invalid email format or email already used");
+      } else if (error.response?.status === 400) {
+        setError("Email already exists");
+      } else {
+        setError("Registration failed. Try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -297,10 +301,7 @@ export default function Register() {
               flexDirection: "column",
             }}
           >
-            <Typography
-              variant="h6"
-              sx={{ margin: 0, fontWeight: 700}}
-            >
+            <Typography variant="h6" sx={{ margin: 0, fontWeight: 700 }}>
               Create an account
             </Typography>
 
@@ -330,7 +331,9 @@ export default function Register() {
                 },
               }}
               value={formData.name}
-              onChange={(e)=>setFormData({...formData,name:e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
             />
 
             {/* EMAIL */}
@@ -348,7 +351,9 @@ export default function Register() {
                 },
               }}
               value={formData.email}
-              onChange={(e)=>setFormData({...formData,email:e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
 
             {/* PASSWORD */}
@@ -367,12 +372,28 @@ export default function Register() {
                 },
               }}
               value={formData.password}
-              onChange={(e)=>setFormData({...formData,password:e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
+            
+            {/* error */}
+            {error && (
+              <Typography
+                sx={{
+                  color: "red",
+                  fontSize: "13px",
+                  
+                  width: { xs: "100%", md: "70%" },
+                  marginLeft: { xs: 0, md: "60px" },
+                }}
+              >
+                {error}
+              </Typography>
+            )}
 
             {/* SUBMIT */}
             <Button
-              // onClick={() => navigate("/app")}
               onClick={RegisterUser}
               sx={{
                 height: "35px",
@@ -380,7 +401,7 @@ export default function Register() {
                 background: "#000",
                 fontWeight: 600,
                 marginTop: "10px",
-                
+
                 textTransform: "none",
                 color: "#fff",
                 "&:hover": { backgroundColor: "#2c2b2b" },
@@ -403,10 +424,10 @@ export default function Register() {
                 textTransform: "none",
                 fontSize: "12px",
                 color: "#000",
-                
+
                 marginTop: "10px",
 
-                // 📱 mobile 
+                // 📱 mobile
                 width: { xs: "100%", md: "55%" },
               }}
             >
@@ -417,7 +438,7 @@ export default function Register() {
             <Typography
               sx={{
                 marginTop: "30px",
-                
+
                 color: "#979393",
                 fontSize: "14px",
 

@@ -48,30 +48,30 @@ export default function Home() {
   }, [news]);
   /* ===================================================== */
 
-  /* ========== BEST BOOK AUTO SCROLL (الجديد) ========== */
+  /* ========== BEST BOOK AUTO SCROLL ========== */
   useEffect(() => {
-    const cardsToScroll = 3;
-    const container = bestRef.current;
-    if (!container) return;
+  const container = bestRef.current;
+  if (!container) return;
 
-    const card = container.children[0];
-    if (!card) return;
+  const card = container.children[0];
+  if (!card) return;
 
-    const scrollAmount = (card.offsetWidth + 16) * cardsToScroll;
+  const scrollAmount = card.offsetWidth + 24; // 24 لأن عندك gap:3
 
-    const interval = setInterval(() => {
-      if (
-        container.scrollLeft + container.clientWidth >=
-        container.scrollWidth
-      ) {
-        container.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }
-    }, 3000);
+  const interval = setInterval(() => {
+    if (
+      container.scrollLeft + container.clientWidth >=
+      container.scrollWidth
+    ) {
+      container.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+
+}, [bestBook]);
   /* ===================================================== */
 
   // API BestBook

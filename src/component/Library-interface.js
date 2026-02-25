@@ -137,6 +137,7 @@ export default function Hero() {
               transform: "translateX(-230px)",
               height: { xs: "180px", md: "220px",lg:"220px" },
               zIndex: 1,
+              
             }}
           />
 
@@ -150,6 +151,7 @@ export default function Hero() {
               transform: "translateX(-160px)",
               height: { xs: "220px", md: "260px",lg:"260px" },
               zIndex: 2,
+              
             }}
           />
 
@@ -163,6 +165,7 @@ export default function Hero() {
               transform: "translateX(-50%)",
               height: { xs: "260px", md: "300px",lg:"300px" },
               zIndex: 3,
+              
             }}
           />
 
@@ -176,6 +179,7 @@ export default function Hero() {
               transform: "translateX(4px)",
               height: { xs: "220px", md: "260px",lg:"260px" },
               zIndex: 2,
+             
             }}
           />
 
@@ -189,6 +193,7 @@ export default function Hero() {
               transform: "translateX(110px)",
               height: { xs: "180px", md: "220px",lg:"220px" },
               zIndex: 1,
+              
             }}
           />
         </Box>

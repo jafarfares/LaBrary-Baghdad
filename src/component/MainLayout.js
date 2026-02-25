@@ -78,7 +78,7 @@ export default function MainLayout() {
   return (
     <Box
       sx={{
-        // minHeight: "100vh",
+        minHeight: "100vh",
         backgroundImage: isHome
           ? {
               md: "url(/desktop-bgr.png)",

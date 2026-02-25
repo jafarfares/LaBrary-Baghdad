@@ -369,8 +369,8 @@ export default function ShowBook() {
         >
           <Box
             sx={{
-              width: { xs: "40%", md: "200px" },
-              height: { xs: "250px", md: "260px" },
+              width: { xs: "50%", md: "200px",lg:"200px" },
+              height: { xs: "250px", md: "260px",lg:"260px" },
               boxShadow:
                 "0px 18px 30px rgba(0,0,0,0.20), 0px 8px 12px rgba(0,0,0,0.15)",
               borderRadius: "6px",
@@ -392,7 +392,7 @@ export default function ShowBook() {
               display: "flex",
               flexDirection: "column",
               gap: "7px",
-              width: { xs: "60%" },
+              width: { xs: "50%" },
             }}
           >
             <Typography variant={"h4"} sx={{ fontWeight: 500 }}>
@@ -515,25 +515,26 @@ export default function ShowBook() {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: { md: "60px", lg: "60px", xl: "100px" },
+                    gap: { xs:"10px",md: "60px", lg: "60px", xl: "100px" },
                     width: { xs: "100%", md: "80%", lg: "80%" },
-                    // backgroundColor:"red"
+                    
                   }}
                 >
                   <Button
+                    size="small"
                     sx={{
                       bgcolor: "#161720",
                       color: "#fff",
                       borderRadius: "25px",
                       mb: "15px",
+                      textTransform: "none",
                     }}
-                    // onClick={() => Navigate("/app")}
                     onClick={openPdf}
                   >
-                    Start reading <ArrowOutwardIcon sx={{ fontSize: "13px" }} />
+                    read <ArrowOutwardIcon sx={{ fontSize: "13px" }} />
                   </Button>
 
-                  <Box sx={{ display: "flex", gap: "10px", mb: "20px" }}>
+                  <Box sx={{ display: "flex", gap: {xs:"3px",md:"10px",lg:"10px"}, mb: "20px" }}>
                     {isFavorite ? (
                       <BookmarkIcon
                         onClick={RemoveFavorite}
@@ -777,7 +778,7 @@ export default function ShowBook() {
                       <Avatar src={comment.profile_image} />
 
                       <Box sx={{ flex: 1 }}>
-                        {/* اسم المستخدم + زر الثلاث نقاط */}
+                        {/* ... */}
                         <Box
                           sx={{
                             display: "flex",
@@ -789,7 +790,7 @@ export default function ShowBook() {
                             {comment.profile_name}
                           </Typography>
 
-                          {/* يظهر فقط إذا كان المستخدم هو صاحب الكومنت */}
+                          {/* */}
 
                           <IconButton
                             size="small"
@@ -800,7 +801,7 @@ export default function ShowBook() {
                           </IconButton>
                         </Box>
 
-                        {/* نص التعليق */}
+                        {/* comment text */}
                         <Typography fontSize="12px" mt="4px">
                           {comment.context}
                         </Typography>
