@@ -360,11 +360,10 @@ export default function ShowBook() {
           sx={{
             display: "flex",
             flexDirection: "row",
-            gap: { xs: "20px", md: "40px", xl: "100px" },
+            gap: { xs: "20px", md: "30px",lg:"40px", xl: "100px" },
             zIndex: 2,
             marginLeft: { md: "70px" },
-            // backgroundColor:"red",
-            width: { xs: "95%", md: "45%", lg: "45%" },
+            width: { xs: "95%", md: "43%", lg: "45%" },
           }}
         >
           <Box
@@ -395,7 +394,8 @@ export default function ShowBook() {
               width: { xs: "50%" },
             }}
           >
-            <Typography variant={"h4"} sx={{ fontWeight: 500 }}>
+            {/*  */}
+            <Typography  sx={{ fontWeight: 500,fontSize: { xs: "1.5rem", md: "1.7rem", lg: "2rem" }, }}>
               {show?.title}
             </Typography>
             <Typography sx={{ fontWeight: 500, fontSize: "17px" }}>
@@ -409,6 +409,7 @@ export default function ShowBook() {
                     backgroundColor: "#b1b4b2",
                     color: "#fff",
                     borderRadius: "25px",
+                    textTransform: "none", 
                   }}
                 >
                   {e.name}
@@ -455,7 +456,15 @@ export default function ShowBook() {
 
           {/* ===== DETAILS ===== */}
           {tab === "details" && (
+
+
+
+
+
+
+            
             <Box sx={{ display: "flex" }}>
+
               {/* Left */}
               <Box
                 sx={{
@@ -515,7 +524,7 @@ export default function ShowBook() {
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: { xs:"10px",md: "60px", lg: "60px", xl: "100px" },
+                    gap: { xs:"5px",md: "60px", lg: "60px", xl: "100px" },
                     width: { xs: "100%", md: "80%", lg: "80%" },
                     
                   }}
@@ -531,10 +540,10 @@ export default function ShowBook() {
                     }}
                     onClick={openPdf}
                   >
-                    read <ArrowOutwardIcon sx={{ fontSize: "13px" }} />
+                    read <ArrowOutwardIcon sx={{ fontSize: {xs:"13px",md:"13px",lg:"13px"} }} />
                   </Button>
 
-                  <Box sx={{ display: "flex", gap: {xs:"3px",md:"10px",lg:"10px"}, mb: "20px" }}>
+                  <Box sx={{ display: "flex", gap: {xs:"2px",md:"10px",lg:"10px"}, mb: "20px" }}>
                     {isFavorite ? (
                       <BookmarkIcon
                         onClick={RemoveFavorite}
@@ -626,60 +635,7 @@ export default function ShowBook() {
             </Box>
           )}
 
-          {/* ===== COMMENTS ===== */}
-          {/* {tab === "comments" && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              
-              {PostCommint.map((comment)=>(
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "10px",
-                  background: "#fff",
-                  padding: "12px",
-                  borderRadius: "8px",
-                }}
-              >
-              
-                
-              eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FiZGFscmhtYW4uY3VwaXRhbC54eXovYXBpL3JlZ2lzdGVyIiwiaWF0IjoxNzcxODY3NzcxLCJleHAiOjE3NzE5NTQxNzEsIm5iZiI6MTc3MTg2Nzc3MSwianRpIjoiUVlDd3hON2x1STFrS0NPbCIsInN1YiI6IjY3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.OwFjMfjkgS57pOUJsnmbgai3JZ5Lcvrz4XdhkA7G-ak
-                
-              
-              
-              
-              <Avatar src={comment.profile_image}/>
-                <Box>
-                  <Typography fontSize="13px" fontWeight="bold">
-                    {comment.profile_name}
-                  </Typography>
-                  <Typography fontSize="12px">
-                    {comment.context}
-                  </Typography>
-                </Box>
-                
-                
-              </Box>
-              ))}
-
-             
-
-              
-              <Box sx={{ display: "flex", gap: "10px", mt: "10px" }}>
-                
-                <Avatar src={getImagePro.image_url}/>
-                
-                <TextField
-                  fullWidth
-                  size="small"
-                  placeholder="Write a comment..."
-                  value={commentText}
-                  onChange={(e)=>setCommentText(e.target.value)}
-                />
-                <Button variant="contained" onClick={AddPost}>Send</Button>
-              </Box>
-              
-            </Box>
-          )} */}
+          {/* tap commint */}
           {tab === "comments" && (
             <Box
               sx={{
@@ -702,51 +658,7 @@ export default function ShowBook() {
                   gap: 2,
                 }}
               >
-                {/* {PostCommint.length === 0 ? (
-                  <Box
-                    sx={{
-                      flex: 1,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "#888",
-                      fontStyle: "italic",
-                      flexDirection:"column"
-                    }}
-                  >
-                    <ChatBubbleOutlineIcon sx={{ fontSize: 40 }} />
-                    There are no comments
-                  </Box>
-                ) : (
-                  PostCommint.map((comment, index) => (
-                    <Box
-                      key={index}
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                        background: "#fff",
-                        padding: "12px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <Avatar src={comment.profile_image} />
-                      <Box>
-                        <Typography fontSize="13px" fontWeight="bold">
-                          {comment.profile_name}
-                        </Typography>
-                        <Typography fontSize="12px">
-                          {comment.context}
-                        </Typography>
-                      </Box>
-                      <IconButton
-                       size="small"
-                       onClick={(e) => handleMenuOpen(e, comment)}
-                      >
-                        <MoreVertIcon fontSize="small" />
-                      </IconButton>
-                    </Box>
-                  ))
-                )} */}
+                
                 {PostCommint.length === 0 ? (
                   <Box
                     sx={{
