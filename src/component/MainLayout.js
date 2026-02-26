@@ -188,6 +188,7 @@ export default function MainLayout() {
                         bgcolor: "#000",
                         transition: "0.3s",
                       },
+                      textTransform:"none"
                     }}
                   >
                     {item.name}

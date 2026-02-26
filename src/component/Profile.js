@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Avatar,
-  Typography,
-  Button,
-} from "@mui/material";
+import { Box, Avatar, Typography, Button } from "@mui/material";
 import { useEffect } from "react";
 import axios from "axios";
 // Icons
@@ -23,52 +18,148 @@ import Setting from "./Setting";
 export default function Profile() {
   const [active, setActive] = useState("profile");
   const [getImagePro, setGetImagePro] = useState(null);
-  const menu = [
-    { id: "profile", label: "Profile", icon: <PersonIcon />, count: null },
-    { id: "favorite", label: "Favorite", icon: <FavoriteIcon />, count: 12 },
-    { id: "download", label: "Download", icon: <BookmarkIcon />, count: 8 },
-    { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />, count: 3 },
-    { id: "setting", label: "Setting", icon: <PersonIcon />, count: null },
-    { id: "logout", label: "Logout", icon: <PersonIcon />, count: null },
-  ];
+  const [getFavorite, serGetFavorite] = useState("");
+  // const menu = [
+  //   { id: "profile", label: "Profile", icon: <PersonIcon /> },
+  //   { id: "favorite", label: "Favorite", icon: <FavoriteIcon /> },
+  //   { id: "download", label: "Download", icon: <BookmarkIcon /> },
+  //   { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />},
+  //   { id: "setting", label: "Setting", icon: <PersonIcon />},
+  //   { id: "logout", label: "Logout", icon: <PersonIcon /> },
+  // ];
 
-  useEffect(()=>{
-    async function getImageProfile(){
-    try{
-      const res=await axios.get("https://abdalrhman.cupital.xyz/api/user/profile",{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setGetImagePro(res.data.data);
-    }catch(err){
-      console.log("error",err);
+  const [menu, setMenu] = useState([
+    { id: "profile", label: "Profile", icon: <PersonIcon /> },
+    { id: "favorite", label: "Favorite", icon: <FavoriteIcon />, count: 0 },
+    { id: "download", label: "Download", icon: <BookmarkIcon />, count: 0 },
+    { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />, count: 0 },
+    { id: "setting", label: "Setting", icon: <PersonIcon /> },
+    { id: "logout", label: "Logout", icon: <PersonIcon /> },
+  ]);
+
+  useEffect(() => {
+    async function getImageProfile() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        setGetImagePro(res.data.data);
+      } catch (err) {
+        console.log("error", err);
+      }
     }
-  }
-  getImageProfile();
-  },[])
+    getImageProfile();
+  }, []);
+
+  //count favrit
+  useEffect(() => {
+    async function FavoriteBook() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/books/fav",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        
+        const favCount = res.data.payload.count;
+        setMenu((prevMenu) =>
+          prevMenu.map((item) =>
+            item.id === "favorite" ? { ...item, count: favCount } : item,
+          ),
+        );
+      } catch (err) {
+        console.log("eroor", err);
+      }
+    }
+    FavoriteBook();
+  }, []);
+
+  //count read
+  useEffect(() => {
+    async function myLibraryBook() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/books/to-read",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        
+        const librCount = res.data.payload.count;
+        setMenu((prevMenu) =>
+          prevMenu.map((item) =>
+            item.id === "myLibrary" ? { ...item, count: librCount } : item,
+          ),
+        );
+      } catch (err) {
+        console.log("eroor", err);
+      }
+    }
+    myLibraryBook();
+  }, []);
+
+  //download
+  useEffect(() => {
+    async function downloadBook() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/books/download",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        const downCount = res.data.payload.count;
+        setMenu((prevMenu) =>
+          prevMenu.map((item) =>
+            item.id === "download" ? { ...item, count: downCount } : item,
+          ),
+        );
+      } catch (err) {
+        console.log("eroor", err);
+      }
+    }
+    downloadBook();
+  }, []);
 
   return (
     <Box
       sx={{
         width: "100%",
-        minHeight:"100vh",
+        minHeight: "100vh",
         display: "flex",
         gap: "25px",
         padding: "20px 0px",
 
         /* 📱 mobile */
-        flexDirection: { xs: "column", md: "row",lg:"row" },
-        justifyContent:"center"
+        flexDirection: { xs: "column", md: "row", lg: "row" },
+        justifyContent: "center",
       }}
     >
       {/* ===== LEFT CARD ===== */}
       <Box
         sx={{
           backgroundColor: "#fff",
-          paddingBottom:{xs:"20px"},
+          paddingBottom: { xs: "20px" },
           borderRadius: "25px",
-          display: {xs:"none",sm:"none",md:"flex",lg:"flex",xl:"flex"},
+          display: {
+            xs: "none",
+            sm: "none",
+            md: "flex",
+            lg: "flex",
+            xl: "flex",
+          },
           flexDirection: "column",
           alignItems: "center",
           pt: 4,
@@ -76,8 +167,8 @@ export default function Profile() {
           border: "solid 1px #f9de8b",
 
           /* 📱 mobile */
-          width: { xs: "100%", md: "30%" ,lg:"30%"},
-          height: { xs: "auto", md: "600px" ,lg:"600px"},
+          width: { xs: "100%", md: "30%", lg: "30%" },
+          height: { xs: "auto", md: "600px", lg: "600px" },
         }}
       >
         {/* Avatar */}
@@ -161,7 +252,7 @@ export default function Profile() {
                 <Typography>{item.label}</Typography>
               </Box>
 
-              {item.count !== null && (
+              {typeof item.count === "number" && (
                 <Box
                   sx={{
                     width: 34,
@@ -188,7 +279,10 @@ export default function Profile() {
       <Box
         sx={{
           /* 📱 mobile */
-          width: { xs: "100%", md: "65%",lg:"65%" },bgcolor:"#FFFFFF",borderRadius: "28px",}}
+          width: { xs: "100%", md: "65%", lg: "65%" },
+          bgcolor: "#FFFFFF",
+          borderRadius: "28px",
+        }}
       >
         {/* <ProfileSettingsCard /> */}
         {active === "profile" && <ProfileSettingsCard />}

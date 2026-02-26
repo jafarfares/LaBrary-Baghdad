@@ -38,7 +38,7 @@ export default function MyLibrary() {
             color: "#2e2b26",
           }}
         >
-          Favorite Books
+          My Library
         </Typography>
         <Box
           sx={{

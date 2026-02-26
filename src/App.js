@@ -8,6 +8,8 @@ import MainLayout from "./component/MainLayout";
 import Home from "./component/Home";
 import Books from "./component/Books";
 import Community from "./component/Community";
+import ReadBook from "./component/ReadBook";// adjust path
+
 // import Research from "./component/Research";
 import ShowBook from "./component/ShowBook";
 import ShowGroup from "./component/ShowGroup";
@@ -79,6 +81,7 @@ function App() {
           {/* <Route path="Research" element={<Research />} /> */}
           <Route path="Books" element={<Books />} />
           <Route path="ShowBook/:id" element={<ShowBook/>}/>
+          <Route path="read/:id" element={<ReadBook />} /> 
           <Route path="ShowGroup" element={<ShowGroup/>}/>
           <Route path="MyLibrary" element={<MyLibrary/>}/>
           <Route path="Favorite" element={<Favorite/>}/>

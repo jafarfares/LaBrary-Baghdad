@@ -6,25 +6,25 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Download() {
-  const [getFavorite, serGetFavorite] = useState([]);
+  const [getDownload, serGetDownload] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    async function FavoriteBook() {
+    async function downloadBook() {
       try {
         const res = await axios.get(
-          "https://abdalrhman.cupital.xyz/api/user/books/fav",
+          "https://abdalrhman.cupital.xyz/api/user/books/download",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           },
         );
-        serGetFavorite(res.data.payload.data);
+        serGetDownload(res.data.payload.data);
       } catch (err) {
         console.log("eroor", err);
       }
     }
-    FavoriteBook();
+    downloadBook();
   }, []);
   return (
     <Box sx={{ width: "100%", padding: "35px" }}>
@@ -39,7 +39,7 @@ export default function Download() {
             color: "#2e2b26",
           }}
         >
-          Favorite Books
+          Download
         </Typography>
         <Box
           sx={{
@@ -51,7 +51,7 @@ export default function Download() {
             flexWrap: "wrap",
           }}
         >
-          {getFavorite.map((title) => (
+          {getDownload.map((title) => (
             <Box
               sx={{
                 display: "flex",
