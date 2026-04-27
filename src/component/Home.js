@@ -17,6 +17,7 @@ export default function Home() {
   const [selectedNews, setSelectedNews] = useState(null);
   //Recommendation
   const [recommendation, setRecommendation] = useState([]);
+  const [trending,setTrending]=useState([]);
 
   const newsRef = useRef(null);
   const bestRef = useRef(null);
@@ -152,6 +153,23 @@ export default function Home() {
     Recommendation();
   }, []);
 
+  //Trending Books
+  useEffect(()=>{
+    async function TrendingBooks(){
+      try{
+        const res=await axios.get("https://abdalrhman.cupital.xyz/api/user/books/trending",{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        setTrending(res.data.payload.data);
+      }catch(error){
+        console.log("error",error);
+      }
+    }
+    TrendingBooks();
+  },[])
+
   return (
     <Box
       sx={{
@@ -231,7 +249,7 @@ export default function Home() {
       </Box>
 
       {/* BOOK BEST */}
-      <Typography variant="h6" mt={5} mb={2} sx={{ color: "#9f9f9f" }}>
+      <Typography variant="h6" mt={5} mb={2} sx={{ color: "#1E1E1C" }}>
         Best Books
       </Typography>
 
@@ -296,7 +314,7 @@ export default function Home() {
       </Box>
 
       {/* Recommendations Books */}
-      <Typography variant="h6" mt={5} mb={2} sx={{ color: "#9f9f9f" }}>
+      <Typography variant="h6" mt={5} mb={2} sx={{ color: "#1E1E1C" }}>
         Recommendations Books
       </Typography>
       <Box
@@ -309,6 +327,59 @@ export default function Home() {
         }}
       >
         {recommendation.map((title, index) => (
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              width: { xs: "45%", sm: "30%", md: "17%", lg: "17%" },
+            }}
+            onClick={()=>navigate(`/app/ShowBook/${title.id}`)}
+          >
+            <Box
+              sx={{
+                bgcolor: "#F6F6F6",
+                borderRadius: "12px",
+                width: "100%",
+                height: "80px",
+                position: "relative",
+                mt: "70px",
+              }}
+            >
+              <Box
+                component="img"
+                src={title.image_url}
+                sx={{
+                  width: "100px",
+                  position: "absolute",
+                  top: "-70px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  height: "150px",
+                }}
+              />
+            </Box>
+            <Typography mt={2}>{title.title}</Typography>
+          </Box>
+        ))}
+      </Box>
+
+      <Typography variant="h6" mt={5} mb={2} sx={{ color: "#1E1E1C" }}>
+        Trending Books
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          flexWrap: "wrap",
+          width: "100%",
+          justifyContent: { xs: "none", md: "center", lg: "center" },
+        }}
+      >
+        {  trending.map((title, index) => (
           <Box
             key={index}
             sx={{

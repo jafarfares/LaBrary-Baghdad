@@ -207,13 +207,14 @@ export default function Register() {
     email: "",
     password: "",
   });
+  
   //Loading
   const [Loading, setLoading] = useState(false);
+
   //error
   const [error, setError] = useState("");
 
   //API
-
   async function RegisterUser() {
     setError("");
     if (!formData.name || !formData.email || !formData.password) {

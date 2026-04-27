@@ -1,12 +1,12 @@
 // MUI
 import { Box, Button } from "@mui/material";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+// import { IconButton, Menu, MenuItem } from "@mui/material";
 
 // Router
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 // Icons
 import PersonIcon from "@mui/icons-material/Person";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import {Avatar} from "@mui/material";
 // Components
@@ -23,18 +23,18 @@ import { Drawer } from "@mui/material";
 /* ================= Layout ================= */
 
 export default function MainLayout() {
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
   const [getImagePro, setGetImagePro] = useState(null);
 
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   //get image profile
   useEffect(() => {
@@ -223,16 +223,7 @@ export default function MainLayout() {
               alignItems: "center",
             }}
           >
-            {/* <PersonIcon
-              onClick={() => navigate("Profile")}
-              sx={{
-                fontSize: 34,
-                cursor: "pointer",
-                border: "2px solid #000",
-                borderRadius: "50%",
-                p: "4px",
-              }}
-            /> */}
+           
             {getImagePro?.image_url ? (
               <Avatar
                 src={getImagePro.image_url}
@@ -259,14 +250,14 @@ export default function MainLayout() {
             <h4>{getImagePro?.fullname}</h4>
             {/* <ExpandMoreIcon /> */}
 
-            <Box>
+            {/* <Box> */}
               {/* زر الأيقونة */}
-              <IconButton onClick={handleClick} sx={{display:{xs:"none",sm:"none",md:"block",lg:"block",xl:"block"}}}>
+              {/* <IconButton onClick={handleClick} sx={{display:{xs:"none",sm:"none",md:"block",lg:"block",xl:"block"}}}>
                 <ExpandMoreIcon />
-              </IconButton>
+              </IconButton> */}
 
               {/* القائمة المنسدلة */}
-              <Menu
+              {/* <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
@@ -300,8 +291,8 @@ export default function MainLayout() {
                   Settings
                 </MenuItem>
                 <MenuItem onClick={() => navigate("Logout")}>Logout</MenuItem>
-              </Menu>
-            </Box>
+              </Menu> */}
+            {/* </Box> */}
           </Box>
         </Box>
 

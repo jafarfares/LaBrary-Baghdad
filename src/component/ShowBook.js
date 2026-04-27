@@ -9,9 +9,8 @@
 // import axios from "axios";
 // import Rating from "@mui/material/Rating";
 
-//  //pdf 
+//  //pdf
 //   import { getDocument } from 'pdfjs-dist';
-
 
 // // icons
 // import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
@@ -46,10 +45,6 @@
 //   const [isRead, setIsRead] = useState(false);
 //   const [selectedComment, setSelectedComment] = useState(null);
 
- 
-
-
-
 //   //pdf
 //   const [pdfUrl, setPdfUrl] = useState('');
 //   const [loading, setLoading] = useState(true);
@@ -67,37 +62,6 @@
 //     setAnchorEl(null);
 //     setSelectedComment(null);
 //   };
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //   //pdf.js
 //   // const canvasRef = useRef(null);
@@ -118,12 +82,10 @@
 //     ShowBookDet();
 //   }, [id]);
 
-
-
 //   useEffect(() => {
 //       setLoading(true);
 //       setError(null);
-  
+
 //       axios.get(`/api/books/${id}/reading`)
 //         .then(res => {
 //           if (res.data.url) setPdfUrl(res.data.url);
@@ -132,9 +94,6 @@
 //         .catch(err => setError('Failed to load PDF'))
 //         .finally(() => setLoading(false));
 //     }, [id]);
-
-
-
 
 //   useEffect(() => {
 //   const token = localStorage.getItem("token");
@@ -165,23 +124,18 @@
 
 // }, [id]);
 
-
-
-
-
-
 //     useEffect(() => {
 //         if (!pdfUrl) return;
-    
+
 //         let pdfDoc = null;
-    
+
 //         const loadPdf = async () => {
 //           const loadingTask = getDocument(pdfUrl);
 //           pdfDoc = await loadingTask.promise;
 //           setNumPages(pdfDoc.numPages);
 //           renderPage(currentPage, pdfDoc);
 //         };
-    
+
 //         const renderPage = async (pageNum, pdfDoc) => {
 //           const page = await pdfDoc.getPage(pageNum);
 //           const viewport = page.getViewport({ scale: 1.5 });
@@ -189,35 +143,24 @@
 //           const context = canvas.getContext('2d');
 //           canvas.height = viewport.height;
 //           canvas.width = viewport.width;
-    
+
 //           const renderContext = { canvasContext: context, viewport };
 //           await page.render(renderContext).promise;
 //         };
-    
+
 //         loadPdf();
 //       }, [pdfUrl, currentPage]);
-
-
-
-      
-
 
 //        const goToPage = (page) => {
 //           if (page < 1 || page > numPages) return;
 //           setCurrentPage(page);
-      
-          
+
 //           axios.post(`/api/books/${id}/track-page`, { page })
 //             .catch(err => console.error('Failed to track page', err));
 //         };
-      
+
 //         if (loading) return <div>Loading PDF...</div>;
 //         if (error) return <div>{error}</div>;
-
-
-
-
-
 
 //   //Download Book
 //   async function DownloadBook() {
@@ -293,12 +236,6 @@
 //   //   }
 //   // }
 
-
-
-
-
-  
-
 //   //post commints
 //   async function AddPost() {
 //     try {
@@ -320,10 +257,6 @@
 //       console.log("error", err);
 //     }
 //   }
-
-   
-
-
 
 //   //get comments
 //   useEffect(() => {
@@ -364,8 +297,6 @@
 //     }
 //     getImageProfile();
 //   }, []);
-
-
 
 //   //delete comment
 //   async function DeleteComment() {
@@ -493,7 +424,6 @@
 //   return (
 //     <Container maxWidth="xl" sx={{ p: 0, minHeight: "100vh" }}>
 
-
 //      {showPdf && (
 //       <div>
 //       <canvas ref={canvasRef} style={{ border: '1px solid #ccc' }}></canvas>
@@ -504,14 +434,6 @@
 //       </div>
 //     </div>
 //     )}
-
-
-
-
-
-
-
-
 
 //       <Box
 //         sx={{
@@ -576,7 +498,7 @@
 //                     backgroundColor: "#b1b4b2",
 //                     color: "#fff",
 //                     borderRadius: "25px",
-//                     textTransform: "none", 
+//                     textTransform: "none",
 //                   }}
 //                 >
 //                   {e.name}
@@ -623,7 +545,7 @@
 
 //           {/* ===== DETAILS ===== */}
 //           {tab === "details" && (
-            
+
 //             <Box sx={{ display: "flex" }}>
 
 //               {/* Left */}
@@ -687,7 +609,7 @@
 //                     alignItems: "center",
 //                     gap: { xs:"5px",md: "60px", lg: "60px", xl: "100px" },
 //                     width: { xs: "100%", md: "80%", lg: "80%" },
-                    
+
 //                   }}
 //                 >
 //                   <Button
@@ -819,7 +741,7 @@
 //                   gap: 2,
 //                 }}
 //               >
-                
+
 //                 {PostCommint.length === 0 ? (
 //                   <Box
 //                     sx={{
@@ -933,48 +855,6 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // MUI
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -1047,7 +927,7 @@ export default function ShowBook() {
         const token = localStorage.getItem("token");
         const res = await axios.get(
           `https://abdalrhman.cupital.xyz/api/user/books/${id}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         setShow(res.data.payload);
       } catch (err) {
@@ -1063,7 +943,11 @@ export default function ShowBook() {
       try {
         const res = await axios.get(
           `https://abdalrhman.cupital.xyz/api/user/book/comment/${id}`,
-          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         setPostCommint(res.data.payload.data);
       } catch (err) {
@@ -1079,7 +963,11 @@ export default function ShowBook() {
       try {
         const res = await axios.get(
           "https://abdalrhman.cupital.xyz/api/user/profile",
-          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
         );
         setGetImagePro(res.data.data);
       } catch (err) {
@@ -1163,30 +1051,28 @@ export default function ShowBook() {
   //   }
   // }
 
-
-
   function openPdf() {
-  const token = localStorage.getItem("token");
-  const url = `https://abdalrhman.cupital.xyz/api/user/books/${id}/open-reading`;
-  
-  // Open in new tab with auth header isn't directly possible,
-  // so we fetch it as a blob and open it
-  fetch(url, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to load PDF");
-      return res.blob();
+    const token = localStorage.getItem("token");
+    const url = `https://abdalrhman.cupital.xyz/api/user/books/${id}/open-reading`;
+
+    // Open in new tab with auth header isn't directly possible,
+    // so we fetch it as a blob and open it
+    fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
     })
-    .then(blob => {
-      const blobUrl = window.URL.createObjectURL(blob);
-      window.open(blobUrl, "_blank");
-    })
-    .catch(err => {
-      console.error("Error opening PDF:", err);
-      alert("Failed to open PDF");
-    });
-}
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load PDF");
+        return res.blob();
+      })
+      .then((blob) => {
+        const blobUrl = window.URL.createObjectURL(blob);
+        window.open(blobUrl, "_blank");
+      })
+      .catch((err) => {
+        console.error("Error opening PDF:", err);
+        alert("Failed to open PDF");
+      });
+  }
 
   // ─── Page navigation ───────────────────────────────────────────────────────
   const goToPage = (page) => {
@@ -1199,7 +1085,7 @@ export default function ShowBook() {
       .post(
         `https://abdalrhman.cupital.xyz/api/user/books/${id}/track-page`,
         { page },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       )
       .catch((err) => console.error("Failed to track page", err));
   };
@@ -1213,7 +1099,7 @@ export default function ShowBook() {
         {
           responseType: "blob",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
@@ -1234,7 +1120,9 @@ export default function ShowBook() {
       const res = await axios.post(
         `https://abdalrhman.cupital.xyz/api/user/book/comment/${id}`,
         { context: commentText },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       const addedComment = res.data.payload.data;
       setPostCommint((prev) => [...prev, addedComment]);
@@ -1248,10 +1136,12 @@ export default function ShowBook() {
     try {
       await axios.delete(
         `https://abdalrhman.cupital.xyz/api/user/book/comment/${selectedComment.id}/${id}`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setPostCommint((prev) =>
-        prev.filter((comment) => comment.id !== selectedComment.id)
+        prev.filter((comment) => comment.id !== selectedComment.id),
       );
       handleMenuClose();
     } catch (err) {
@@ -1264,14 +1154,16 @@ export default function ShowBook() {
       await axios.patch(
         `https://abdalrhman.cupital.xyz/api/user/book/comment/${editingCommentId}/${id}`,
         { context: commentText },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setPostCommint((prev) =>
         prev.map((comment) =>
           comment.id === editingCommentId
             ? { ...comment, context: commentText }
-            : comment
-        )
+            : comment,
+        ),
       );
       setEditingCommentId(null);
       setCommentText("");
@@ -1285,7 +1177,9 @@ export default function ShowBook() {
     try {
       await axios.get(
         `https://abdalrhman.cupital.xyz/api/user/books/${id}/add-fav`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setIsFavorite(true);
     } catch (err) {
@@ -1298,7 +1192,9 @@ export default function ShowBook() {
       await axios.post(
         `https://abdalrhman.cupital.xyz/api/user/books/${id}/remove-fav`,
         {},
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setIsFavorite(false);
     } catch (err) {
@@ -1310,7 +1206,9 @@ export default function ShowBook() {
     try {
       await axios.get(
         `https://abdalrhman.cupital.xyz/api/user/books/${id}/add-read`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setIsRead(true);
     } catch (err) {
@@ -1323,7 +1221,9 @@ export default function ShowBook() {
       await axios.post(
         `https://abdalrhman.cupital.xyz/api/user/books/${id}/remove-read`,
         {},
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        },
       );
       setIsRead(false);
     } catch (err) {
@@ -1334,21 +1234,26 @@ export default function ShowBook() {
   // ─── Render ────────────────────────────────────────────────────────────────
   return (
     <Container maxWidth="xl" sx={{ p: 0, minHeight: "100vh" }}>
-
       {/* ✅ PDF Viewer — only renders when user clicked Read */}
       {showPdf && (
         <Box sx={{ p: 2, textAlign: "center" }}>
           {pdfLoading && <Typography>Loading PDF...</Typography>}
-          {pdfError && (
-            <Typography color="error">{pdfError}</Typography>
-          )}
+          {pdfError && <Typography color="error">{pdfError}</Typography>}
           {!pdfLoading && !pdfError && (
             <>
               <canvas
                 ref={canvasRef}
                 style={{ border: "1px solid #ccc", maxWidth: "100%" }}
               />
-              <Box sx={{ mt: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: 2 }}>
+              <Box
+                sx={{
+                  mt: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                }}
+              >
                 <Button
                   variant="outlined"
                   size="small"
@@ -1371,7 +1276,11 @@ export default function ShowBook() {
                 <Button
                   variant="text"
                   size="small"
-                  onClick={() => { setShowPdf(false); setPdfUrl(""); pdfDocRef.current = null; }}
+                  onClick={() => {
+                    setShowPdf(false);
+                    setPdfUrl("");
+                    pdfDocRef.current = null;
+                  }}
                 >
                   Close
                 </Button>
@@ -1417,8 +1326,20 @@ export default function ShowBook() {
             />
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "7px", width: { xs: "50%" } }}>
-            <Typography sx={{ fontWeight: 500, fontSize: { xs: "1.5rem", md: "1.7rem", lg: "2rem" } }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "7px",
+              width: { xs: "50%" },
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: { xs: "1.5rem", md: "1.7rem", lg: "2rem" },
+              }}
+            >
               {show?.title}
             </Typography>
             <Typography sx={{ fontWeight: 500, fontSize: "17px" }}>
@@ -1489,16 +1410,28 @@ export default function ShowBook() {
                   marginTop: { xs: "102px", md: "102px", lg: "102px" },
                 }}
               >
-                <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <Typography fontWeight="bold" fontSize="15px">Description</Typography>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+                >
+                  <Typography fontWeight="bold" fontSize="15px">
+                    Description
+                  </Typography>
                   <Typography fontSize="12px">{show?.description}</Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <Typography fontWeight="bold" fontSize="15px">{show?.author_name}</Typography>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+                >
+                  <Typography fontWeight="bold" fontSize="15px">
+                    {show?.author_name}
+                  </Typography>
                   <Typography fontSize="12px">{show?.description}</Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <Typography fontWeight="bold" fontSize="15px">Rating</Typography>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: "12px" }}
+                >
+                  <Typography fontWeight="bold" fontSize="15px">
+                    Rating
+                  </Typography>
                   <Rating
                     value={show?.rating || 0}
                     readOnly
@@ -1508,7 +1441,14 @@ export default function ShowBook() {
               </Box>
 
               {/* Right */}
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "50%" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "50%",
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -1533,32 +1473,53 @@ export default function ShowBook() {
                     read <ArrowOutwardIcon sx={{ fontSize: { xs: "13px", md: "13px", lg: "13px" } }} />
                   </Button> */}
                   <Button
-  size="small"
-  sx={{
-    bgcolor: "#161720",
-    color: "#fff",
-    borderRadius: "25px",
-    mb: "15px",
-    textTransform: "none",
-  }}
-  onClick={() => navigate(`/app/read/${id}`)}
->
-  read <ArrowOutwardIcon sx={{ fontSize: { xs: "13px" } }} />
-</Button>
+                    size="small"
+                    sx={{
+                      bgcolor: "#161720",
+                      color: "#fff",
+                      borderRadius: "25px",
+                      mb: "15px",
+                      textTransform: "none",
+                    }}
+                    onClick={() => navigate(`/app/read/${id}`)}
+                  >
+                    read <ArrowOutwardIcon sx={{ fontSize: { xs: "13px" } }} />
+                  </Button>
 
-                  <Box sx={{ display: "flex", gap: { xs: "2px", md: "10px", lg: "10px" }, mb: "20px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: { xs: "2px", md: "10px", lg: "10px" },
+                      mb: "20px",
+                    }}
+                  >
                     {isFavorite ? (
-                      <BookmarkIcon onClick={RemoveFavorite} sx={{ cursor: "pointer", color: "#000" }} />
+                      <BookmarkIcon
+                        onClick={RemoveFavorite}
+                        sx={{ cursor: "pointer", color: "#000" }}
+                      />
                     ) : (
-                      <BookmarkBorderOutlinedIcon onClick={AddFavorite} sx={{ cursor: "pointer" }} />
+                      <BookmarkBorderOutlinedIcon
+                        onClick={AddFavorite}
+                        sx={{ cursor: "pointer" }}
+                      />
                     )}
                     <MusicNoteOutlinedIcon />
                     {isRead ? (
-                      <ImportContactsOutlinedIcon onClick={removeReadList} sx={{ cursor: "pointer", color: "#000" }} />
+                      <ImportContactsOutlinedIcon
+                        onClick={removeReadList}
+                        sx={{ cursor: "pointer", color: "#000" }}
+                      />
                     ) : (
-                      <ImportContactsOutlinedIcon onClick={addReadList} sx={{ cursor: "pointer" }} />
+                      <ImportContactsOutlinedIcon
+                        onClick={addReadList}
+                        sx={{ cursor: "pointer" }}
+                      />
                     )}
-                    <DownloadOutlinedIcon onClick={DownloadBook} sx={{ cursor: "pointer" }} />
+                    <DownloadOutlinedIcon
+                      onClick={DownloadBook}
+                      sx={{ cursor: "pointer" }}
+                    />
                   </Box>
                 </Box>
 
@@ -1572,18 +1533,53 @@ export default function ShowBook() {
                   }}
                 />
 
-                <Box sx={{ width: "70%", display: "flex", flexDirection: "column", gap: "15px" }}>
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    <Typography fontWeight="bold" fontSize="15px">Language</Typography>
+                <Box
+                  sx={{
+                    width: "70%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "15px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "12px",
+                    }}
+                  >
+                    <Typography fontWeight="bold" fontSize="15px">
+                      Language
+                    </Typography>
                     <Typography fontSize="12px">{show?.language}</Typography>
                   </Box>
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    <Typography fontWeight="bold" fontSize="15px" mt="10px">Paperback</Typography>
-                    <Typography fontSize="12px">{show?.pages_read} pages</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "12px",
+                    }}
+                  >
+                    <Typography fontWeight="bold" fontSize="15px" mt="10px">
+                      Paperback
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {show?.pages_read} pages
+                    </Typography>
                   </Box>
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    <Typography fontWeight="bold" fontSize="15px" mt="10px">Publish Year</Typography>
-                    <Typography fontSize="12px">{show?.publish_year}</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "12px",
+                    }}
+                  >
+                    <Typography fontWeight="bold" fontSize="15px" mt="10px">
+                      Publish Year
+                    </Typography>
+                    <Typography fontSize="12px">
+                      {show?.publish_year}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
@@ -1602,9 +1598,28 @@ export default function ShowBook() {
                 overflow: "hidden",
               }}
             >
-              <Box sx={{ flex: 1, overflowY: "auto", p: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+              <Box
+                sx={{
+                  flex: 1,
+                  overflowY: "auto",
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                }}
+              >
                 {PostCommint.length === 0 ? (
-                  <Box sx={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "#888", fontStyle: "italic", flexDirection: "column" }}>
+                  <Box
+                    sx={{
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#888",
+                      fontStyle: "italic",
+                      flexDirection: "column",
+                    }}
+                  >
                     <ChatBubbleOutlineIcon sx={{ fontSize: 40 }} />
                     There are no comments
                   </Box>
@@ -1612,23 +1627,54 @@ export default function ShowBook() {
                   PostCommint.map((comment) => (
                     <Box
                       key={comment.id}
-                      sx={{ display: "flex", gap: 1, background: "#fff", padding: "12px", borderRadius: "8px", alignItems: "flex-start" }}
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        background: "#fff",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        alignItems: "flex-start",
+                      }}
                     >
                       <Avatar src={comment.profile_image} />
                       <Box sx={{ flex: 1 }}>
-                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <Typography fontSize="13px" fontWeight="bold">{comment.profile_name}</Typography>
-                          <IconButton size="small" onClick={(e) => handleMenuOpen(e, comment)} sx={{ padding: "4px" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography fontSize="13px" fontWeight="bold">
+                            {comment.profile_name}
+                          </Typography>
+                          <IconButton
+                            size="small"
+                            onClick={(e) => handleMenuOpen(e, comment)}
+                            sx={{ padding: "4px" }}
+                          >
                             <MoreVertIcon fontSize="small" />
                           </IconButton>
                         </Box>
-                        <Typography fontSize="12px" mt="4px">{comment.context}</Typography>
+                        <Typography fontSize="12px" mt="4px">
+                          {comment.context}
+                        </Typography>
                       </Box>
                     </Box>
                   ))
                 )}
-                <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                  <MenuItem onClick={() => { setEditingCommentId(selectedComment.id); setCommentText(selectedComment.context); handleMenuClose(); }}>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setEditingCommentId(selectedComment.id);
+                      setCommentText(selectedComment.context);
+                      handleMenuClose();
+                    }}
+                  >
                     Edit
                   </MenuItem>
                   <MenuItem onClick={DeleteComment}>Delete</MenuItem>
@@ -1636,7 +1682,14 @@ export default function ShowBook() {
               </Box>
 
               {/* ✅ Safe guard: only render Avatar when getImagePro is loaded */}
-              <Box sx={{ p: 2, borderTop: "1px solid #ddd", display: "flex", gap: 1 }}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderTop: "1px solid #ddd",
+                  display: "flex",
+                  gap: 1,
+                }}
+              >
                 <Avatar src={getImagePro?.image_url} />
                 <TextField
                   fullWidth
@@ -1644,8 +1697,21 @@ export default function ShowBook() {
                   placeholder="Write a comment..."
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
+                  onKeyDown={(e)=>{
+                    if(e.key==="Enter"){
+                      e.preventDefault();
+                      if(editingCommentId){
+                        EditComment();
+                      }else{
+                        AddPost();
+                      }
+                    }
+                  }}
                 />
-                <Button variant="contained" onClick={editingCommentId ? EditComment : AddPost}>
+                <Button
+                  variant="contained"
+                  onClick={editingCommentId ? EditComment : AddPost}
+                >
                   {editingCommentId ? "Save" : "Send"}
                 </Button>
               </Box>

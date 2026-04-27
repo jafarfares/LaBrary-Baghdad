@@ -17,7 +17,7 @@ import MyLibrary from "./component/MyLibrary";
 import Setting from "./component/Setting";
 import Favorite from "./component/Favorite";
 import Download from "./component/Download";
-import Logout from "./component/Logout";
+// import Logout from "./component/Logout";
 //MUI
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -36,7 +36,7 @@ function App() {
 
 
   
-     const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("light");
 
   const colorMode = useMemo(
     () => ({
@@ -86,12 +86,12 @@ function App() {
           <Route path="MyLibrary" element={<MyLibrary/>}/>
           <Route path="Favorite" element={<Favorite/>}/>
           <Route path="Download" element={<Download/>}/>
-          <Route path="Logout" element={<Logout/>}/>
+          {/* <Route path="Logout" element={<Logout/>}/> */}
           <Route path="Setting" element={<Setting/>}/>
         </Route>
       </Routes>
     </ThemeProvider>
-    </ColorModeContext.Provider>
+    </ColorModeContext.Provider> 
    
   );
 }

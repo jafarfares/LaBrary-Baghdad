@@ -14,8 +14,9 @@ import {
   Rating,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-//image
-import bookImage2 from "../Assets/images/logo.png";
+import { useState } from "react";
+import axios from "axios";
+
 const fieldStyle = {
   backgroundColor: "#fff",
   borderRadius: "10px",
@@ -31,6 +32,40 @@ const fieldStyle = {
 };
 
 export default function Books() {
+  //useState
+  const [search, setSearch] = useState("");
+  const [books, setBooks] = useState([]);
+
+  const handleSearch = async () => {
+    if (!search.trim()) return;
+
+    try {
+     
+
+      const res = await axios.get(
+        "https://abdalrhman.cupital.xyz/api/user/books-search",
+        {
+          params: { search },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      const results = res.data.payload.data;
+
+      const exactMatch = results.filter(
+        (book) =>
+          book.title.toLowerCase().trim() === search.toLowerCase().trim(),
+      );
+
+      setBooks(exactMatch);
+    } catch (err) {
+      console.log(err.response?.data || err);
+    } 
+    
+  };
+
   return (
     <Container
       maxWidth="xl"
@@ -59,6 +94,9 @@ export default function Books() {
           <TextField
             fullWidth
             placeholder="Search books, authors, ISBN..."
+            //data
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -87,9 +125,7 @@ export default function Books() {
               },
             }}
           >
-            <MenuItem value="">
-              Sort by: Title (A–Z)
-            </MenuItem>
+            <MenuItem value="">Sort by: Title (A–Z)</MenuItem>
             <MenuItem value="za">Title (Z–A)</MenuItem>
             <MenuItem value="author">Author</MenuItem>
           </Select>
@@ -103,37 +139,38 @@ export default function Books() {
             gap: "18px",
           }}
         >
-          {["Category", "Author", "Language", "Publisher"].map((item) => (
-            <Box key={item}>
-              <Typography
-                sx={{
-                  fontSize: "11px",
-                  color: "#8a8a8a",
-                  mb: "4px",
-                  fontWeight: 500,
-                }}
-              >
-                {item}
-              </Typography>
-              <Select
-                fullWidth
-                displayEmpty
-                defaultValue=""
-                sx={{
-                  ...fieldStyle,
-                  "& .MuiSelect-select": {
-                    py: "11px",
-                    fontSize: "13px",
-                  },
-                }}
-              >
-                <MenuItem value="">
-                  All {item}
-                </MenuItem>
-              </Select>
+          {["Category", "Author", "Language", "Publisher"].map((item, index) => (
+          <Box>
+            <Typography
+              key={index}
+              sx={{
+                fontSize: "11px",
+                color: "#8a8a8a",
+                mb: "4px",
+                fontWeight: 500,
+              }}
+            >
+              {item}
+            </Typography>
+            <Select
+              fullWidth
+              displayEmpty
+              defaultValue=""
+              sx={{
+                ...fieldStyle,
+                "& .MuiSelect-select": {
+                  py: "11px",
+                  fontSize: "13px",
+                },
+              }}
+            >
+              <MenuItem value="">All {item}</MenuItem>
+            </Select>
             </Box>
-          ))}
+            
+           ))}
         </Box>
+        
 
         {/* Advanced */}
         <Box
@@ -201,6 +238,8 @@ export default function Books() {
                 backgroundColor: "#000",
               },
             }}
+            //onClick
+            onClick={handleSearch}
           >
             Clear Filters
           </Button>
@@ -214,35 +253,28 @@ export default function Books() {
           gap: "20px",
           alignItems: "center",
           flexWrap: "wrap",
-          marginLeft: {md:"38px",xs:"38px"},
-          marginTop:{xs:"30px"}
+          marginLeft: { md: "38px", xs: "38px" },
+          marginTop: { xs: "30px" },
         }}
       >
-        {[
-          "Design",
-          "Romantic",
-          "Religious",
-          "Philosophical",
-          "Philosophical",
-          "Philosophical",
-        ].map((title, index) => (
+        {books.map((book) => (
           <Box
-            key={index}
+            key={book.id}
             sx={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-               marginTop: {xs:"70px",md:"5px"},         
+              marginTop: { xs: "70px", md: "5px" },
             }}
           >
             <Box
               sx={{
                 bgcolor: "#F6F6F6",
                 borderRadius: "12px",
-                width: { md: "200px",xs:"170px" },
-                height: { md: "80px",xs:"80px" },
-                mt: { md: "70px",xs:"20px" },
+                width: { md: "200px", xs: "170px" },
+                height: { md: "80px", xs: "80px" },
+                mt: { md: "70px", xs: "20px" },
                 position: "relative",
                 overflow: "visible",
                 // marginBottom:{xs:"20px"}
@@ -264,8 +296,8 @@ export default function Books() {
                 }}
               >
                 <img
-                  src={bookImage2}
-                  alt="book"
+                  src={book.image_url}
+                  alt={book.title}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -274,7 +306,13 @@ export default function Books() {
                 />
               </Box>
             </Box>
-            <Typography mt={2}>{title}</Typography>
+            <Typography mt={2}>{book.title}</Typography>
+
+            <Typography fontSize="12px" color="#777">
+              {book.author_name}
+            </Typography>
+
+            <Rating value={book.rating} readOnly size="small" />
           </Box>
         ))}
       </Box>

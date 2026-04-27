@@ -9,32 +9,39 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import ProfileSettingsCard from "./ProfileSettingsCard";
+import GroupsIcon from "@mui/icons-material/Groups";
 //components
 import Favorite from "./Favorite";
 import Download from "./Download";
 import MyLibrary from "./MyLibrary";
 import Setting from "./Setting";
 
+// React
+import React from "react";
+
+// MUI Components
+import { Card, CardContent, IconButton, Rating } from "@mui/material";
+
+// MUI Icons
+
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CustomizedDialogs from "./DialogCommunity";
 export default function Profile() {
   const [active, setActive] = useState("profile");
   const [getImagePro, setGetImagePro] = useState(null);
-  const [getFavorite, serGetFavorite] = useState("");
-  // const menu = [
-  //   { id: "profile", label: "Profile", icon: <PersonIcon /> },
-  //   { id: "favorite", label: "Favorite", icon: <FavoriteIcon /> },
-  //   { id: "download", label: "Download", icon: <BookmarkIcon /> },
-  //   { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />},
-  //   { id: "setting", label: "Setting", icon: <PersonIcon />},
-  //   { id: "logout", label: "Logout", icon: <PersonIcon /> },
-  // ];
-
+  const [MyGroup, setMyGroup] = useState([]);
+  const [open1, setOpen1] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [categoriesAPI, setCategoriesAPI] = useState([]);
   const [menu, setMenu] = useState([
     { id: "profile", label: "Profile", icon: <PersonIcon /> },
     { id: "favorite", label: "Favorite", icon: <FavoriteIcon />, count: 0 },
     { id: "download", label: "Download", icon: <BookmarkIcon />, count: 0 },
     { id: "myLibrary", label: "My Library", icon: <MenuBookIcon />, count: 0 },
-    { id: "setting", label: "Setting", icon: <PersonIcon /> },
-    { id: "logout", label: "Logout", icon: <PersonIcon /> },
+    { id: "MyGroup", label: "My Groups", icon: <GroupsIcon />, count: 0 },
+    { id: "setting", label: "Settings", icon: <PersonIcon /> },
+    // { id: "logout", label: "Logout", icon: <PersonIcon /> },
   ]);
 
   useEffect(() => {
@@ -68,7 +75,7 @@ export default function Profile() {
             },
           },
         );
-        
+
         const favCount = res.data.payload.count;
         setMenu((prevMenu) =>
           prevMenu.map((item) =>
@@ -94,7 +101,7 @@ export default function Profile() {
             },
           },
         );
-        
+
         const librCount = res.data.payload.count;
         setMenu((prevMenu) =>
           prevMenu.map((item) =>
@@ -132,6 +139,113 @@ export default function Profile() {
     }
     downloadBook();
   }, []);
+
+  //My Group
+  useEffect(() => {
+    async function MyGroup() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/user/groups/my",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          },
+        );
+        // const groupCount = res.data.payload.count;
+        const groupCount = res.data.payload.meta.count ?? 0;
+        setMenu((prevMenu) =>
+          prevMenu.map((item) =>
+            item.id === "MyGroup" ? { ...item, count: groupCount } : item,
+          ),
+        );
+        setMyGroup(res.data.payload.data);
+      } catch (err) {
+        console.log("error", err);
+      }
+    }
+    MyGroup();
+  }, []);
+
+  //delete Group
+  async function DeleteGroup(id) {
+    try {
+      await axios.delete(
+        `https://abdalrhman.cupital.xyz/api/user/groups/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      setMyGroup((prevGroup) => {
+        const updatedGroups = prevGroup.filter((item) => item.id !== id);
+        setMenu((prevMenu) =>
+          prevMenu.map((item) =>
+            item.id === "MyGroup"
+              ? { ...item, count: updatedGroups.length }
+              : item,
+          ),
+        );
+
+        return updatedGroups;
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  //Edit my group
+  // async function EditGroup(id,updatedData){
+  //   try{
+  //     const res=await axios.patch(`https://abdalrhman.cupital.xyz/api/user/groups/${id}`,updatedData,{
+  //       headers:{
+  //         Authorization:`Bearer ${localStorage.getItem("token")}`
+  //       }
+  //     });
+  //     setMyGroup(prev => prev.map(item => item.id === id ? {...item, ...updatedData} : item));
+  //   }catch(error){
+  //     console.log("error",error);
+  //   }
+  // }
+  useEffect(() => {
+    async function getCategories() {
+      try {
+        const res = await axios.get(
+          "https://abdalrhman.cupital.xyz/api/categories",
+        );
+        setCategoriesAPI(res.data.payload.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getCategories();
+  }, []);
+
+  async function fetchMyGroups() {
+    try {
+      const res = await axios.get(
+        "https://abdalrhman.cupital.xyz/api/user/groups/my",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      setMyGroup(res.data.payload.data);
+
+      const groupCount = res.data.payload.meta.count ?? 0;
+      setMenu((prevMenu) =>
+        prevMenu.map((item) =>
+          item.id === "MyGroup" ? { ...item, count: groupCount } : item,
+        ),
+      );
+    } catch (err) {
+      console.log("error", err);
+    }
+  }
 
   return (
     <Box
@@ -289,17 +403,130 @@ export default function Profile() {
         {active === "favorite" && <Favorite />}
         {active === "download" && <Download />}
         {active === "myLibrary" && <MyLibrary />}
-        {active === "setting" && <Setting />}
-        {active === "logout" && (
-          <Box sx={{ p: 4 }}>
-            <Typography fontSize={16} fontWeight={500}>
-              Are you sure you want to logout?
-            </Typography>
-            <Button sx={{ mt: 2 }} variant="contained" color="error">
-              Logout
-            </Button>
+        {active === "MyGroup" && (
+          <Box
+            sx={{
+              padding: "35px",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              flexWrap: "wrap",
+              // bgcolor:"red",
+              gap: 3,
+            }}
+          >
+            {open1 && selectedGroup && (
+              <CustomizedDialogs
+                open={open1}
+                setOpen={setOpen1}
+                groupToEdit={selectedGroup}
+                categoriesAPI={categoriesAPI}
+                fetchGroups={fetchMyGroups}
+              />
+            )}
+            {MyGroup?.length > 0 ? (
+              MyGroup?.map((item) => (
+                <Card
+                  key={item.id}
+                  sx={{
+                    width: { xs: "100%", sm: "300px", md: "45%", lg: "45%" },
+                    borderRadius: 3,
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    position: "relative",
+                    transition: "transform 0.2s",
+                    "&:hover": { transform: "translateY(-4px)" },
+                  }}
+                >
+                  {/* Image Section */}
+                  <Box
+                    sx={{
+                      height: 160,
+                      borderTopLeftRadius: 12,
+                      borderTopRightRadius: 12,
+                      position: "relative",
+                    }}
+                  >
+                    <img
+                      src={item?.image_url}
+                      alt="sorry"
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </Box>
+
+                  {/* Three dots / options */}
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: 8,
+                      right: 2,
+                      display: "flex",
+                    }}
+                  >
+                    <IconButton size="small" color="primary">
+                      <EditIcon
+                        fontSize="small"
+                        onClick={() => {
+                          setSelectedGroup(item);
+                          setOpen1(true);
+                        }}
+                        sx={{
+                          bgcolor: "#fff",
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      />
+                    </IconButton>
+                    <IconButton size="small" color="error">
+                      <DeleteIcon
+                        fontSize="small"
+                        onClick={() => DeleteGroup(item.id)}
+                        sx={{
+                          bgcolor: "#fff",
+                          padding: "2px",
+                          borderRadius: "5px",
+                        }}
+                      />
+                    </IconButton>
+                  </Box>
+
+                  {/* Card Content */}
+                  <CardContent sx={{ paddingTop: 2 }}>
+                    <Typography variant="h6" fontWeight={600} mb={1}>
+                      {item?.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      mb={1}
+                      sx={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 5,
+                        overflow: "hidden",
+                        height: { xs: "auto", md: "100px", lg: "100px" },
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {item?.description}
+                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                      <Rating
+                        name="read-only"
+                        value={item.rating || 1}
+                        readOnly
+                        size="small"
+                      />
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <Typography>No groups found.</Typography>
+            )}
           </Box>
         )}
+        {active === "setting" && <Setting />}
+        
       </Box>
     </Box>
   );

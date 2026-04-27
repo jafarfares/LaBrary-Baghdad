@@ -6,6 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import OutlinedInput from "@mui/material/OutlinedInput";
 //axios
 import axios from "axios";
 const fieldStyle = {
@@ -33,7 +34,7 @@ export default function ProfileSettingsCard() {
     image: null,
     language: "",
   });
-  
+
   const fileInputRef = useRef(null);
 
   const handleOpenFile = () => {
@@ -97,7 +98,7 @@ export default function ProfileSettingsCard() {
         });
 
         if (data.image_url) {
-          setImage(data.image_url); 
+          setImage(data.image_url);
         }
         if (res.data.data) {
           setHasProfile(true);
@@ -162,9 +163,7 @@ export default function ProfileSettingsCard() {
       {/* TITLE */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 5 }}>
         <PersonOutlineIcon sx={{ color: "#ff9800", fontSize: 30 }} />
-        <Typography sx={{ fontSize: 26, fontWeight: 600 }}>
-          Profile 
-        </Typography>
+        <Typography sx={{ fontSize: 26, fontWeight: 600 }}>Profile</Typography>
       </Box>
 
       {/* PROFILE PIC */}
@@ -306,7 +305,28 @@ export default function ProfileSettingsCard() {
               setInfopro({ ...infopro, language: e.target.value })
             }
           />
-          <FormControl fullWidth>
+          <FormControl
+            fullWidth
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "14px",
+                backgroundColor: "#fff",
+
+                "& fieldset": {
+                  borderColor: "#E5E5E5",
+                },
+
+                "&:hover fieldset": {
+                  borderColor: "#C9B27C",
+                },
+
+                "&.Mui-focused fieldset": {
+                  borderColor: "#8B6C2F",
+                  borderWidth: "2px",
+                },
+              },
+            }}
+          >
             <InputLabel id="gender-label">Gender</InputLabel>
             <Select
               labelId="gender-label"
@@ -354,7 +374,7 @@ export default function ProfileSettingsCard() {
             // onClick={CreatePro}
             onClick={hasProfile ? EditProfile : CreatePro}
           >
-           {hasProfile ? "Update" : "Create"}
+            {hasProfile ? "Update" : "Create"}
           </Button>
         </Box>
       </Box>
