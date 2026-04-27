@@ -1,336 +1,10 @@
-// import * as React from "react";
-// import axios from "axios";
-// import { useState } from "react";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogActions,
-//   Box,
-//   Typography,
-//   TextField,
-//   Button,
-//   MenuItem,
-//   Select,
-//   OutlinedInput,
-//   Rating,
-// } from "@mui/material";
-
-// const categoryOptions = [
-//   { label: "Literature", value: 1 },
-//   { label: "Technology", value: 2 },
-//   { label: "Science", value: 3 },
-//   { label: "Art & Design", value: 4 },
-//   { label: "Music", value: 5 },
-//   { label: "History", value: 6 },
-// ];
-
-// const statusOptions = [
-//   { label: "Active", value: "active" },
-//   { label: "Inactive", value: "inactive" },
-// ];
-
-// const communityTypes = [
-//   { label: "Public", value: "public" },
-//   { label: "Private", value: "private" },
-// ];
-// // { open, setOpen }
-// export default function CommunityDialog({ open, setOpen, fetchGroups }) {
-//   const [category, setCategory] = React.useState("");
-//   const [type, setType] = React.useState("");
-
-//   const [rating, setRating] = React.useState(0);
-
-//   const [error, setError] = useState();
-
-//   const handleClose = () => setOpen(false);
-
-//   const [formData, setFormData] = useState({
-//     title: "",
-//     des: "",
-//     image: "",
-//     rating: "",
-//     availbility: "",
-//     status: "",
-//     categories: "",
-//   });
-
-//   // async function CreateGroup() {
-//   //   if (
-//   //     !formData.title ||
-//   //     !formData.des ||
-//   //     !formData.image ||
-//   //     !formData.rating ||
-//   //     !formData.availbility ||
-//   //     !formData.status ||
-//   //     !formData.categories
-//   //   ) {
-//   //     setError("Fill in all fields");
-//   //   }
-//   //   try {
-//   //     const data = new FormData();
-//   //     data.append("title", formData.title);
-//   //     data.append("des", formData.des);
-//   //     data.append("image", formData.image);
-//   //     data.append("rating", formData.rating);
-//   //     data.append("availbility", formData.availbility);
-//   //     data.append("status", formData.status);
-//   //     data.append("categories[]", formData.categories);
-
-//   //     const res = await axios.post(
-//   //       "https://abdalrhman.cupital.xyz/api/user/groups",
-//   //       data,
-//   //       {
-//   //         headers: {
-//   //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-//   //         },
-//   //       },
-//   //     );
-//   //     handleClose();
-//   //     console.log("create Group");
-//   //   } catch (err) {
-//   //     console.log(err.response.data);
-//   //   }
-//   // }
-
-//  async function CreateGroup() {
-//     if (!formData.title || !formData.des || !formData.image || !formData.rating || !formData.availbility || !formData.status || !formData.categories) {
-//       setError("Fill in all fields");
-//       return;
-//     }
-
-//     try {
-//       const data = new FormData();
-//       data.append("title", formData.title);
-//       data.append("des", formData.des);
-//       data.append("image", formData.image);
-//       data.append("rating", formData.rating);
-//       data.append("availbility", formData.availbility);
-//       data.append("status", formData.status);
-//       data.append("categories[]", formData.categories);
-
-//       await axios.post(
-//         "https://abdalrhman.cupital.xyz/api/user/groups",
-//         data,
-//         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-//       );
-
-//       handleClose();
-
-//       fetchGroups(); // ← تحديث الصفحة بعد الإضافة
-//       console.log("Group created successfully");
-//     } catch (err) {
-//       console.log(err.response.data);
-//     }
-//   }
-
-//   return (
-//     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-//       <DialogContent
-//         sx={{
-//           bgcolor: "#FAFAFA",
-//           px: 4,
-//           py: 3,
-//         }}
-//       >
-//         {/* Header */}
-//         <Typography variant="h5" fontWeight={700} mb={3}>
-//           Create Community
-//         </Typography>
-
-//         <Box display="flex" flexDirection="column" gap={2}>
-//           {/* Community Name */}
-//           <TextField
-//             label="title *"
-//             placeholder="Enter community name"
-//             fullWidth
-//             onChange={(e) =>
-//               setFormData({ ...formData, title: e.target.value })
-//             }
-//           />
-
-//           {/* Description */}
-//           <TextField
-//             label="Description *"
-//             placeholder="Describe what your community is about"
-//             fullWidth
-//             multiline
-//             onChange={(e) => setFormData({ ...formData, des: e.target.value })}
-//           />
-
-//           {/* Category */}
-//           <Select
-//             // value={category}
-//             // onChange={(e) => setCategory(e.target.value)}
-//             value={formData.status}
-//             onChange={(e) =>
-//               setFormData({ ...formData, status: e.target.value })
-//             }
-//             displayEmpty
-//             fullWidth
-//             input={<OutlinedInput />}
-//           >
-//             <MenuItem value="" disabled>
-//               status*
-//             </MenuItem>
-//             {statusOptions.map((t) => (
-//               <MenuItem key={t.value} value={t.value}>
-//                 {t.label}
-//               </MenuItem>
-//             ))}
-//           </Select>
-
-//           {/* Community Type */}
-//           <Select
-//             value={formData.availbility}
-//             onChange={(e) =>
-//               setFormData({ ...formData, availbility: e.target.value })
-//             }
-//             displayEmpty
-//             fullWidth
-//             input={<OutlinedInput />}
-//           >
-//             <MenuItem value="" disabled>
-//               availbility*
-//             </MenuItem>
-//             {communityTypes.map((t) => (
-//               <MenuItem key={t.value} value={t.value}>
-//                 {t.label}
-//               </MenuItem>
-//             ))}
-//           </Select>
-
-//           {/* Current Book */}
-//           <Select
-//             // value={category}
-//             // onChange={(e) => setCategory(e.target.value)}
-//             value={formData.categories}
-//             onChange={(e) =>
-//               setFormData({ ...formData, categories: e.target.value })
-//             }
-//             displayEmpty
-//             fullWidth
-//             input={<OutlinedInput />}
-//           >
-//             <MenuItem value="" disabled>
-//               category*
-//             </MenuItem>
-//             {categoryOptions.map((cat) => (
-//               <MenuItem key={cat.value} value={cat.value}>
-//                 {cat.label}
-//               </MenuItem>
-//             ))}
-//           </Select>
-
-//           <Typography fontSize={14}>Community Image</Typography>
-//           <Button variant="outlined" component="label" size="small">
-//             Upload Image
-//             <input
-//               hidden
-//               type="file"
-//               accept="image/*"
-//               onChange={(e) =>
-//                 setFormData({ ...formData, image: e.target.files[0] })
-//               }
-//             />
-//           </Button>
-
-//           {/* Rating */}
-//           <Box>
-//             <Typography fontSize={14} mb={1}>
-//               Initial Rating
-//             </Typography>
-//             <Rating
-//               value={formData.rating}
-//               precision={0.5}
-//               onChange={(event, newValue) =>
-//                 setFormData({ ...formData, rating: newValue })
-//               }
-//             />
-//           </Box>
-//         </Box>
-//         <Box
-//           sx={{
-//             width: "100%",
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: "center",
-//           }}
-//         >
-//           {error && (
-//             <Typography
-//               sx={{
-//                 color: "red",
-//                 fontSize: "15px",
-//               }}
-//             >
-//               {error}
-//             </Typography>
-//           )}
-//         </Box>
-//       </DialogContent>
-
-//       {/* Footer */}
-//       <DialogActions sx={{ px: 4, py: 2, bgcolor: "#FAFAFA" }}>
-//         <Button
-//           onClick={handleClose}
-//           sx={{ color: "#000", border: "1px solid #000" }}
-//         >
-//           Cancel
-//         </Button>
-//         <Button
-//           variant="contained"
-//           sx={{ color: "#fff", bgcolor: "#131313" }}
-//           onClick={CreateGroup}
-//         >
-//           Create Community
-//         </Button>
-//       </DialogActions>
-//     </Dialog>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 import * as React from "react";
 import axios from "axios";
 import { useState } from "react";
-import {InputLabel} from "@mui/material";
-import { useEffect } from "react";
+// import {InputLabel} from "@mui/material";
+// import { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -346,14 +20,14 @@ import {
 } from "@mui/material";
 import { FormControl } from "@mui/material";
 
-const categoryOptions = [
-  { label: "Literature", value: 1 },
-  { label: "Technology", value: 2 },
-  { label: "Science", value: 3 },
-  { label: "Art & Design", value: 4 },
-  { label: "Music", value: 5 },
-  { label: "History", value: 6 },
-];
+// const categoryOptions = [
+//   { label: "Literature", value: 1 },
+//   { label: "Technology", value: 2 },
+//   { label: "Science", value: 3 },
+//   { label: "Art & Design", value: 4 },
+//   { label: "Music", value: 5 },
+//   { label: "History", value: 6 },
+// ];
 
 const statusOptions = [
   { label: "Active", value: "active" },
@@ -557,17 +231,17 @@ export default function CommunityDialog({
       }
 
       return selected
-        .map(
-          (id) => categoriesAPI .find((c) => c.id === id)?.name
-        )
-        .join(", ");
+        // .map(
+        //   (id) => categoriesAPI .find((c) => c.id === id)?.name
+        // )
+        // .join(", ");
     }}
   >
-    {categoriesAPI .map((cat) => (
+    {/* {categoriesAPI .map((cat) => (
       <MenuItem key={cat.id} value={cat.id}>
         {cat.name}
       </MenuItem>
-    ))}
+    ))} */}
   </Select>
 </FormControl>
           </Box>

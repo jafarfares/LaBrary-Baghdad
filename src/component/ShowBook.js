@@ -902,7 +902,7 @@ export default function ShowBook() {
   const navigate = useNavigate();
   // PDF state
   const [pdfUrl, setPdfUrl] = useState("");
-  const [pdfLoading, setPdfLoading] = useState(false); // ✅ separate loading flag, starts FALSE
+  const [pdfLoading] = useState(false); // ✅ separate loading flag, starts FALSE
   const [pdfError, setPdfError] = useState(null);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -1051,28 +1051,28 @@ export default function ShowBook() {
   //   }
   // }
 
-  function openPdf() {
-    const token = localStorage.getItem("token");
-    const url = `https://abdalrhman.cupital.xyz/api/user/books/${id}/open-reading`;
+  // function openPdf() {
+  //   const token = localStorage.getItem("token");
+  //   const url = `https://abdalrhman.cupital.xyz/api/user/books/${id}/open-reading`;
 
-    // Open in new tab with auth header isn't directly possible,
-    // so we fetch it as a blob and open it
-    fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to load PDF");
-        return res.blob();
-      })
-      .then((blob) => {
-        const blobUrl = window.URL.createObjectURL(blob);
-        window.open(blobUrl, "_blank");
-      })
-      .catch((err) => {
-        console.error("Error opening PDF:", err);
-        alert("Failed to open PDF");
-      });
-  }
+  //   // Open in new tab with auth header isn't directly possible,
+  //   // so we fetch it as a blob and open it
+  //   fetch(url, {
+  //     headers: { Authorization: `Bearer ${token}` },
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("Failed to load PDF");
+  //       return res.blob();
+  //     })
+  //     .then((blob) => {
+  //       const blobUrl = window.URL.createObjectURL(blob);
+  //       window.open(blobUrl, "_blank");
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error opening PDF:", err);
+  //       alert("Failed to open PDF");
+  //     });
+  // }
 
   // ─── Page navigation ───────────────────────────────────────────────────────
   const goToPage = (page) => {
